@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stamped/features/camera/camera_provider.dart';
 import 'package:stamped/features/camera/camera_screen.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
-import 'package:stamped/features/auth/auth_provider.dart';
+import 'package:stamped/features/workspace/workspace_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stamped/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,13 +33,31 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => CameraProvider()),
+        ChangeNotifierProxyProvider<AuthProvider, WorkspaceProvider>(
+          create: (_) => WorkspaceProvider(),
+          update: (context, authProvider, previousWorkspaceProvider) {
+            // When auth changes, tell the workspace provider
+            if (previousWorkspaceProvider != null) {
+              if (authProvider.isAuthenticated) {
+                // We only want to load it initially if it hasn't been loaded
+                // To avoid reloading on every extraneous notifyListeners() from AuthProvider
+                if (previousWorkspaceProvider.currentWorkspace == null) {
+                  previousWorkspaceProvider.loadUserWorkspace(authProvider.user!.uid);
+                }
+              } else {
+                previousWorkspaceProvider.clearWorkspace();
+              }
+            }
+            return previousWorkspaceProvider ?? WorkspaceProvider();
+          },
+        ),
       ],
       child: MaterialApp(
         title: 'Stamped',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
-          fontFamily: 'Inter', // Or any default font
+          fontFamily: 'Inter',
         ),
         home: const CameraScreen(),
         debugShowCheckedModeBanner: false,
@@ -47,3 +65,4 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+

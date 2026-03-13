@@ -30,6 +30,10 @@ class CameraProvider extends ChangeNotifier {
   File? _lastCapturedFile;
   List<File> _galleryFiles = [];
 
+  String? _lastImageHash;
+  Map<String, dynamic>? _lastLocationData;
+  String? _lastCameraDirection;
+
   StreamSubscription<Position>? _positionStream;
   Position? _currentPosition;
   Position? get currentPosition => _currentPosition;
@@ -39,8 +43,13 @@ class CameraProvider extends ChangeNotifier {
   FlashMode get flashMode => _flashMode;
   double get currentZoom => _currentZoom;
   String get currentZoomLabel => _currentZoomLabel;
+  double get currentExposure => _currentExposure;
   File? get lastCapturedFile => _lastCapturedFile;
   List<File> get galleryFiles => _galleryFiles;
+
+  String? get lastImageHash => _lastImageHash;
+  Map<String, dynamic>? get lastLocationData => _lastLocationData;
+  String? get lastCameraDirection => _lastCameraDirection;
 
   Future<void> initCamera() async {
     try {
@@ -197,7 +206,7 @@ class CameraProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addCapturedImage(Uint8List imageBytes, String captureId) async {
+  Future<File?> addCapturedImage(Uint8List imageBytes, String captureId) async {
     try {
       // 1. Save locally to app documents directory
       final directory = await getApplicationDocumentsDirectory();
@@ -253,10 +262,15 @@ class CameraProvider extends ChangeNotifier {
 
       // 4. Update memory state
       _lastCapturedFile = file;
+      _lastImageHash = imageHash;
+      _lastLocationData = locationDataMap;
+      _lastCameraDirection = _controller?.description.lensDirection.toString();
       _galleryFiles.insert(0, file); // Add to beginning of sequence
       notifyListeners();
+      return file;
     } catch (e) {
       debugPrint("Error saving image locally: $e");
+      return null;
     }
   }
 

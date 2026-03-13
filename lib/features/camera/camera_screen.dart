@@ -17,6 +17,8 @@ import 'package:stamped/features/camera/widgets/bottom_navigation_tabs.dart';
 import 'package:stamped/features/reports/reports_screen.dart';
 import 'package:stamped/features/auth/auth_screen.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
+import 'package:stamped/features/workspace/workspace_provider.dart';
+import 'package:stamped/core/services/cloudinary_service.dart';
 
 class CameraScreen extends StatefulWidget {
   final Function(int)? onNavigate;
@@ -124,10 +126,51 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
       await Gal.putImageBytes(pngBytes);
       
       if (mounted) {
-        Provider.of<CameraProvider>(context, listen: false).addCapturedImage(pngBytes, captureId);
+        final provider = Provider.of<CameraProvider>(context, listen: false);
+        final file = await provider.addCapturedImage(pngBytes, captureId);
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Saved to Gallery!'), duration: Duration(seconds: 2)),
         );
+
+        // Auto upload to workspace if project is selected
+        if (mounted) {
+          final wp = Provider.of<WorkspaceProvider>(context, listen: false);
+          final auth = Provider.of<AuthProvider>(context, listen: false);
+          
+          if (wp.currentWorkspace != null && wp.currentProject != null && auth.user != null && file != null) {
+            final cloudinaryService = CloudinaryService();
+            final capturedHash = provider.lastImageHash;
+            final capturedLocation = provider.lastLocationData;
+            final capturedDirection = provider.lastCameraDirection;
+            final capturedZoom = provider.currentZoom;
+            final capturedExposure = provider.currentExposure;
+            
+            cloudinaryService.uploadImage(file).then((url) {
+              if (url != null) {
+                wp.workspaceService.addPhotoRecord(
+                  url,
+                  auth.user!.uid,
+                  wp.currentWorkspace!.id,
+                  projectId: wp.currentProject!.id,
+                  latitude: capturedLocation?['latitude'] as double?,
+                  longitude: capturedLocation?['longitude'] as double?,
+                  altitude: capturedLocation?['altitude'] as double?,
+                  accuracy: capturedLocation?['accuracy'] as double?,
+                  speed: capturedLocation?['speed'] as double?,
+                  cameraDirection: capturedDirection,
+                  zoomLevel: capturedZoom,
+                  exposure: capturedExposure,
+                  imageHash: capturedHash,
+                ).then((_) {
+                  debugPrint("Auto-uploaded photo to Workspace.");
+                });
+              }
+            }).catchError((e) {
+              debugPrint("Auto-upload error: $e");
+            });
+          }
+        }
       }
     } catch (e) {
        debugPrint("Capture error: $e");

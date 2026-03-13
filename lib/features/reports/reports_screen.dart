@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stamped/features/camera/camera_provider.dart';
-import 'package:stamped/features/camera/widgets/bottom_navigation_tabs.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:stamped/core/services/pinata_service.dart';
-import 'package:stamped/core/services/fileverse_service.dart';
-import 'package:stamped/features/auth/auth_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'report_markdown_editor.dart';
+import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 class ReportsScreenEmbedded extends StatefulWidget {
   const ReportsScreenEmbedded({super.key});
 
@@ -31,76 +28,26 @@ class _ReportsScreenEmbeddedState extends State<ReportsScreenEmbedded> {
   bool _isGenerating = false;
 
   Future<void> _generateReport(CameraProvider provider) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    if (!authProvider.isAuthenticated) return;
-
-    setState(() {
-      _isGenerating = true;
-    });
-
-    try {
-      final pinata = PinataService();
-      final fileverse = FileverseService();
-      
-      List<String> imageHashLinks = [];
-      String markdownContent = "# Field Report\n\nGenerated on \${DateTime.now().toIso8601String()}\n\n## Attached Evidences\n\n";
-
-      // 1. Upload images to IPFS
-      int count = 1;
-      for (int index in _selectedIndices) {
-        if (index < provider.galleryFiles.length) {
-          final file = provider.galleryFiles[index];
-          String? ipfsHash = await pinata.uploadImage(file);
-          if (ipfsHash != null) {
-            imageHashLinks.add(ipfsHash);
-            markdownContent += "### Evidence \$count\n";
-            markdownContent += "![Evidence \$count](https://gateway.pinata.cloud/ipfs/\$ipfsHash)\n\n";
-            count++;
-          }
-        }
-      }
-
-      // 2. Create Fileverse Event
-      final fileverseApiKey = dotenv.env['FILEVERSE_API_KEY'];
-      if (fileverseApiKey == null) throw Exception("Missing FILEVERSE_API_KEY in .env");
-
-      final docResult = await fileverse.createDocument(
-        title: "Report - \${DateTime.now().toLocal()}",
-        content: markdownContent,
-        apiKey: fileverseApiKey,
-      );
-
-      // docResult now contains the response from the fileverse api
-      
-      // 3. Save reference to Firestore
-      final userId = authProvider.user!.uid;
-      await FirebaseFirestore.instance.collection('users').doc(userId).collection('reports').add({
-        'createdAt': FieldValue.serverTimestamp(),
-        'fileverseDocId': docResult['id'] ?? docResult['documentId'] ?? "unknown",
-        'fileverseResponse': docResult,
-        'imageHashes': imageHashLinks,
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Report Successfully Generated & Saved!')),
-        );
-      }
-    } catch (e) {
-      debugPrint("Report Generation Error: \$e");
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error generating report: \${e.toString()}')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isGenerating = false;
-          _selectedIndices.clear();
-        });
+    final List<File> selectedFiles = [];
+    for (int index in _selectedIndices) {
+      if (index < provider.galleryFiles.length) {
+        selectedFiles.add(provider.galleryFiles[index]);
       }
     }
+
+    if (selectedFiles.isEmpty) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReportMarkdownEditor(selectedImages: selectedFiles),
+      ),
+    );
+    
+    // Clear selection after navigating
+    setState(() {
+      _selectedIndices.clear();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -170,7 +117,7 @@ class _ReportsScreenEmbeddedState extends State<ReportsScreenEmbedded> {
                     children: [
                       CircularProgressIndicator(),
                       SizedBox(height: 16),
-                      Text("Uploading to IPFS & Fileverse..."),
+                      Text("Generating Report..."),
                     ],
                   ),
                 ),
@@ -191,5 +138,21 @@ class _ReportsScreenEmbeddedState extends State<ReportsScreenEmbedded> {
         );
       },
     );
+  }
+}
+
+class ReportsScreen extends StatelessWidget {
+  final Function(int) onNavigate;
+  final int currentIndex;
+
+  const ReportsScreen({
+    super.key,
+    required this.onNavigate,
+    required this.currentIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const ReportsScreenEmbedded();
   }
 }
