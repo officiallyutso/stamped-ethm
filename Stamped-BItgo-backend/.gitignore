@@ -137,6 +137,11 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+.txt
 
+newWallet.txt
+standby_wallet.txt
+deposit_wallet.txt
+custodial.txt
+custodial_wallet.txt
 
-.env

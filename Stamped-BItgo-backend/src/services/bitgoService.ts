@@ -6,6 +6,7 @@ import path from 'path';
 import { MessageStandardType } from '@bitgo/sdk-core';
 
 const WALLET_FILE_PATH = path.join(__dirname, 'wallet.txt');
+const CUSTODIAL_WALLET_FILE_PATH = path.join(__dirname, 'custodial_wallet.txt');
 
 const bitgo = new BitGoAPI({
   accessToken: config.accessToken,
@@ -36,6 +37,36 @@ export class BitGoService {
       return null;
     }
   }
+  /**
+ * Read Custodial Wallet ID from file if exists
+ */
+private readCustodialWalletIdFromFile(): string | null {
+  try {
+    if (fs.existsSync(CUSTODIAL_WALLET_FILE_PATH)) {
+      const walletId = fs.readFileSync(CUSTODIAL_WALLET_FILE_PATH, 'utf8').trim();
+      if (walletId) {
+        console.log(`[INFO] Custodial Wallet ID found in custodial_wallet.txt`);
+        return walletId;
+      }
+    }
+    return null;
+  } catch (err) {
+    console.error(`[ERROR] Failed to read custodial wallet file`, err);
+    return null;
+  }
+}
+
+/**
+ * Save Custodial Wallet ID to file
+ */
+private saveCustodialWalletIdToFile(walletId: string) {
+  try {
+    fs.writeFileSync(CUSTODIAL_WALLET_FILE_PATH, walletId, 'utf8');
+    console.log(`[INFO] Custodial Wallet ID saved to custodial_wallet.txt`);
+  } catch (err) {
+    console.error(`[ERROR] Failed to write custodial wallet file`, err);
+  }
+}
 
   /**
    * Save wallet ID to file
@@ -48,6 +79,52 @@ export class BitGoService {
       console.error(`[ERROR] Failed to write wallet file`, err);
     }
   }
+
+  /**
+ * Create or Get Custodial Wallet (Cold Storage)
+ */
+public async createCustodyWallet() {
+  console.log('\n=== Creating Custody Wallet (Cold Storage) ===');
+
+  try {
+    const coin = bitgo.coin(config.coin);
+
+    // Step 1: Check if custodial wallet already exists
+    const savedWalletId = this.readCustodialWalletIdFromFile();
+
+    if (savedWalletId) {
+      try {
+        console.log(`[INFO] Loading Custodial Wallet using ID: ${savedWalletId}`);
+        return await coin.wallets().get({ id: savedWalletId });
+      } catch (err) {
+        console.log(`[WARN] Custodial Wallet ID invalid. Creating new one...`);
+      }
+    }
+
+    // Step 2: Create Custodial Wallet
+    const custodyWallet = await coin.wallets().add({
+      label: 'Custody Wallet - Cold Storage',
+      enterprise: config.enterpriseId,
+      isCustodial: true,
+      type: 'custodial',
+    });
+
+    console.log('✅ Custody Wallet Created:');
+    console.log('   Wallet ID:', custodyWallet.id());
+    console.log('   Label:', custodyWallet.label());
+    console.log('   Type:', custodyWallet._wallet.type);
+    console.log('   Receive Address:', custodyWallet.receiveAddress());
+
+    // Step 3: Save wallet ID to file
+    this.saveCustodialWalletIdToFile(custodyWallet.id());
+
+    return custodyWallet;
+
+  } catch (error: any) {
+    console.error('❌ Error creating custody wallet:', error.message);
+    throw error;
+  }
+}
 
   /**
    * Get existing wallet or create new one
@@ -121,6 +198,6 @@ export class BitGoService {
   }
 
   public async sendTransactionOnChain() {
-    
+
   }
 }
