@@ -12,9 +12,13 @@ import 'package:stamped/features/camera/camera_provider.dart';
 import 'package:stamped/features/camera/widgets/top_action_row.dart';
 import 'package:stamped/features/camera/widgets/time_location_overlay.dart';
 import 'package:stamped/features/camera/widgets/workspace_banner.dart';
+import 'package:stamped/features/camera/widgets/stamped_drawer.dart';
 import 'package:stamped/features/camera/widgets/camera_bottom_controls.dart';
+import 'package:stamped/features/camera/widgets/notes_edit_sheet.dart'; // Added
 import 'package:stamped/features/camera/widgets/bottom_navigation_tabs.dart';
 import 'package:stamped/features/reports/reports_screen.dart';
+import 'package:stamped/features/camera/attendance_screen.dart';
+import 'package:stamped/features/camera/attendance_provider.dart';
 import 'package:stamped/features/auth/auth_screen.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
@@ -123,10 +127,9 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 
-      await Gal.putImageBytes(pngBytes);
-      
       if (mounted) {
         final provider = Provider.of<CameraProvider>(context, listen: false);
+        // Pass PNG bytes to the provider. The provider will handle conversion to JPEG, EXIF embedding, and Gallery saving.
         final file = await provider.addCapturedImage(pngBytes, captureId);
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -162,6 +165,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                   zoomLevel: capturedZoom,
                   exposure: capturedExposure,
                   imageHash: capturedHash,
+                  captureId: _currentCaptureId,
                 ).then((_) {
                   debugPrint("Auto-uploaded photo to Workspace.");
                 });
@@ -201,6 +205,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      drawer: const StampedDrawer(),
       body: SafeArea(
         child: NativeDeviceOrientationReader(
           builder: (context) {
@@ -334,7 +339,12 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                                       // Persistent Action Icons (Not watermarked)
                                       GestureDetector(
                                         onTap: () {
-                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Edit tapped")));
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) => const NotesEditSheet(),
+                                          );
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.only(bottom: 16, right: 4),
@@ -368,17 +378,14 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                           ),
                           ),
                           
-                          // 3. Time In & Out (Mock)
-                          const Center(
-                            child: Text(
-                              'Time In & Out Coming Soon', 
-                              style: TextStyle(color: Colors.white, fontSize: 18),
-                            ),
+                          // 3. Time In & Out
+                          const _KeepAlivePage(
+                            child: AttendanceScreen(),
                           ),
                         ]
                       ),
                     ),
-                    const WorkspaceBanner(),
+                    if (_currentIndex != 3) const WorkspaceBanner(),
                     if (_currentIndex == 2) CameraBottomControls(onCapture: _captureImage),
                     BottomNavigationTabs(
                       currentIndex: _currentIndex,

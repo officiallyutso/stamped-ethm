@@ -4,6 +4,7 @@ import 'package:stamped/features/camera/camera_provider.dart';
 import 'package:stamped/features/camera/camera_screen.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
+import 'package:stamped/features/camera/attendance_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:stamped/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => CameraProvider()),
+        ChangeNotifierProvider(create: (_) => AttendanceProvider()),
         ChangeNotifierProxyProvider<AuthProvider, WorkspaceProvider>(
           create: (_) => WorkspaceProvider(),
           update: (context, authProvider, previousWorkspaceProvider) {
@@ -55,7 +57,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Stamped',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFB4128)),
           useMaterial3: true,
           fontFamily: 'Inter',
         ),

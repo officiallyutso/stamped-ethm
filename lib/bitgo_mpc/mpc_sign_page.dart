@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'commitment_service.dart';
 import 'mpc_signing_service.dart';
 import 'secure_key_storage.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 
 class MpcSignPage extends StatefulWidget {
   const MpcSignPage({super.key});
@@ -192,10 +193,10 @@ class _MpcSignPageState extends State<MpcSignPage> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: AppColors.primaryRed.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: Colors.blueAccent, size: 20),
+            child: Icon(icon, color: AppColors.primaryRed, size: 20),
           ),
           const SizedBox(width: 16),
           Expanded(

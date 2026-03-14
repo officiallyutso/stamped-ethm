@@ -17,6 +17,7 @@ class PhotoModel {
   final double? zoomLevel;
   final double? exposure;
   final String? imageHash;
+  final String? captureId;
 
   PhotoModel({
     required this.id,
@@ -34,6 +35,7 @@ class PhotoModel {
     this.zoomLevel,
     this.exposure,
     this.imageHash,
+    this.captureId,
   });
 
   factory PhotoModel.fromMap(Map<String, dynamic> data, String documentId) {
@@ -53,6 +55,7 @@ class PhotoModel {
       zoomLevel: (data['zoomLevel'] as num?)?.toDouble(),
       exposure: (data['exposure'] as num?)?.toDouble(),
       imageHash: data['imageHash'] as String?,
+      captureId: data['captureId'] as String?,
     );
   }
 
@@ -77,6 +80,7 @@ class PhotoModel {
       if (zoomLevel != null) 'zoomLevel': zoomLevel,
       if (exposure != null) 'exposure': exposure,
       if (imageHash != null) 'imageHash': imageHash,
+      if (captureId != null) 'captureId': captureId,
     };
   }
 }

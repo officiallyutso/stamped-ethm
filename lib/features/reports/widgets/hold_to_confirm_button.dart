@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 
 class HoldToConfirmButton extends StatefulWidget {
   final String text;
@@ -11,7 +12,7 @@ class HoldToConfirmButton extends StatefulWidget {
     required this.text,
     required this.onConfirmed,
     this.duration = const Duration(seconds: 2),
-    this.color = Colors.blue,
+    this.color = AppColors.primaryRed,
   });
 
   @override

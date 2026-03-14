@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stamped/features/camera/camera_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'report_markdown_editor.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 import 'dart:io';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 class ReportsScreenEmbedded extends StatefulWidget {
@@ -95,10 +96,10 @@ class _ReportsScreenEmbeddedState extends State<ReportsScreenEmbedded> {
                                     decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.4),
                                       borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: Colors.blue, width: 3),
+                                      border: Border.all(color: AppColors.primaryRed, width: 3),
                                     ),
                                     child: const Center(
-                                      child: Icon(Icons.check_circle, color: Colors.blue, size: 32),
+                                      child: Icon(Icons.check_circle, color: AppColors.primaryRed, size: 32),
                                     ),
                                   ),
                               ],
@@ -130,7 +131,7 @@ class _ReportsScreenEmbeddedState extends State<ReportsScreenEmbedded> {
                     onPressed: () => _generateReport(provider),
                     label: const Text('Generate Report'),
                     icon: const Icon(LucideIcons.fileText),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: AppColors.primaryRed,
                     foregroundColor: Colors.white,
                   ),
                 )

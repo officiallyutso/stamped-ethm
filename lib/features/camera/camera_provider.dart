@@ -9,6 +9,8 @@ import 'package:native_exif/native_exif.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:gal/gal.dart';
 import '../../core/services/zk_prover_service.dart';
 
 class CameraProvider extends ChangeNotifier {
@@ -38,6 +40,10 @@ class CameraProvider extends ChangeNotifier {
   Position? _currentPosition;
   Position? get currentPosition => _currentPosition;
 
+  // Custom Notes State
+  String _overlayNotes = '';
+  Color _notesColor = Colors.white;
+
   CameraController? get controller => _controller;
   bool get isInitialized => _isInitialized;
   FlashMode get flashMode => _flashMode;
@@ -50,6 +56,11 @@ class CameraProvider extends ChangeNotifier {
   String? get lastImageHash => _lastImageHash;
   Map<String, dynamic>? get lastLocationData => _lastLocationData;
   String? get lastCameraDirection => _lastCameraDirection;
+
+  // New Getters
+  String get overlayNotes => _overlayNotes;
+  Color get notesColor => _notesColor;
+  bool get isFrontCamera => _controller?.description.lensDirection == CameraLensDirection.front;
 
   Future<void> initCamera() async {
     try {
@@ -208,33 +219,46 @@ class CameraProvider extends ChangeNotifier {
 
   Future<File?> addCapturedImage(Uint8List imageBytes, String captureId) async {
     try {
-      // 1. Save locally to app documents directory
-      final directory = await getApplicationDocumentsDirectory();
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final file = File('${directory.path}/stamped_$timestamp.jpg');
-      await file.writeAsBytes(imageBytes);
+      // 1. Convert PNG to JPEG
+      final jpegBytes = await FlutterImageCompress.compressWithList(
+        imageBytes,
+        format: CompressFormat.jpeg,
+        quality: 95,
+      );
 
-      // 2. Hash and Inject EXIF
+      // 2. Save locally to app documents directory
+      final directory = await getApplicationDocumentsDirectory();
+      // Match firebase name format
+      final file = File('${directory.path}/$captureId.jpg');
+      await file.writeAsBytes(jpegBytes);
+
+      // 3. Hash and Inject EXIF
       final zkService = ZkProverService();
-      final imageHash = await zkService.hashImage(imageBytes);
+      final imageHash = await zkService.hashImage(jpegBytes);
       
       final exif = await Exif.fromPath(file.path);
       await exif.writeAttribute('UserComment', imageHash);
       
-      Map<String, dynamic>? locationDataMap;
+      Map<String, dynamic> locationDataMap = {
+        'captureId': captureId,
+      };
+
       if (_currentPosition != null) {
-        locationDataMap = {
+        locationDataMap.addAll({
           'latitude': _currentPosition!.latitude,
           'longitude': _currentPosition!.longitude,
           'accuracy': _currentPosition!.accuracy,
           'altitude': _currentPosition!.altitude,
           'speed': _currentPosition!.speed,
           'timestamp': _currentPosition!.timestamp.toIso8601String(),
-        };
-        await exif.writeAttribute('ImageDescription', jsonEncode(locationDataMap));
+        });
       }
+      await exif.writeAttribute('ImageDescription', jsonEncode(locationDataMap));
 
       await exif.close();
+
+      // 4. Save fully baked file to Android/iOS Gallery
+      await Gal.putImage(file.path);
 
       // 3. Upload metadata to Firebase
       final user = FirebaseAuth.instance.currentUser;
@@ -271,6 +295,20 @@ class CameraProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("Error saving image locally: $e");
       return null;
+    }
+  }
+
+  void setOverlayNotes(String notes) {
+    if (_overlayNotes != notes) {
+      _overlayNotes = notes;
+      notifyListeners();
+    }
+  }
+
+  void setNotesColor(Color color) {
+    if (_notesColor != color) {
+      _notesColor = color;
+      notifyListeners();
     }
   }
 

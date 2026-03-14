@@ -3,6 +3,7 @@ import 'dart:math';
 import '../models/workspace_model.dart';
 import '../models/project_model.dart';
 import '../models/photo_model.dart';
+import '../models/attendance_model.dart';
 
 class WorkspaceService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -58,6 +59,12 @@ class WorkspaceService {
     return workspace;
   }
 
+  Future<void> removeMember(String workspaceId, String memberId) async {
+    await _firestore.collection('workspaces').doc(workspaceId).update({
+      'memberIds': FieldValue.arrayRemove([memberId])
+    });
+  }
+
   Stream<List<WorkspaceModel>> getUserWorkspaces(String userId) {
     return _firestore
         .collection('workspaces')
@@ -108,6 +115,7 @@ class WorkspaceService {
     double? zoomLevel,
     double? exposure,
     String? imageHash,
+    String? captureId,
   }) async {
     final docRef = _firestore.collection('photos').doc();
     final photo = PhotoModel(
@@ -126,6 +134,7 @@ class WorkspaceService {
       zoomLevel: zoomLevel,
       exposure: exposure,
       imageHash: imageHash,
+      captureId: captureId,
     );
     
     await docRef.set(photo.toMap());
@@ -153,6 +162,65 @@ class WorkspaceService {
     });
   }
 
+  // ATTENDANCE OPERATIONS
+
+  Future<AttendanceModel> addAttendanceRecord({
+    required String userId,
+    required String workspaceId,
+    required String projectId,
+    required AttendanceType type,
+    String? photoUrl,
+    double? latitude,
+    double? longitude,
+  }) async {
+    final docRef = _firestore.collection('attendance').doc();
+    final record = AttendanceModel(
+      id: docRef.id,
+      userId: userId,
+      workspaceId: workspaceId,
+      projectId: projectId,
+      type: type,
+      photoUrl: photoUrl,
+      timestamp: DateTime.now(),
+      latitude: latitude,
+      longitude: longitude,
+    );
+    await docRef.set(record.toMap());
+    return record;
+  }
+
+  Stream<List<AttendanceModel>> getProjectAttendance(String projectId) {
+    return _firestore
+        .collection('attendance')
+        .where('projectId', isEqualTo: projectId)
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => AttendanceModel.fromFirestore(doc))
+            .toList());
+  }
+
+  Future<AttendanceModel?> getLatestAttendance(String userId, String projectId) async {
+    final snapshot = await _firestore
+        .collection('attendance')
+        .where('userId', isEqualTo: userId)
+        .where('projectId', isEqualTo: projectId)
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .get();
+    if (snapshot.docs.isEmpty) return null;
+    return AttendanceModel.fromFirestore(snapshot.docs.first);
+  }
+
+  Future<bool> hasProjectAttendance(String projectId) async {
+    final snapshot = await _firestore
+        .collection('attendance')
+        .where('projectId', isEqualTo: projectId)
+        .limit(1)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
   // Helper
   String _generateJoinCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -160,4 +228,7 @@ class WorkspaceService {
     return String.fromCharCodes(Iterable.generate(
         6, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
+
+  // NOTE: updateUserPayoutAddress / getUserPayoutAddress removed.
+  // User wallets are now auto-generated via BackendApiService.createUserWallet()
 }

@@ -7,6 +7,7 @@ import 'package:stamped/features/auth/auth_screen.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
 import 'package:stamped/features/workspace/widgets/project_selection_sheet.dart';
 import 'package:stamped/features/workspace/workspace_dashboard_screen.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 
 class WorkspaceBanner extends StatelessWidget {
   const WorkspaceBanner({super.key});
@@ -21,7 +22,7 @@ class WorkspaceBanner extends StatelessWidget {
         
         return Container(
           width: double.infinity,
-          color: AppColors.primaryBlue,
+          color: AppColors.primaryRed,
           // Remove padding from Container as InkWells will handle it
           child: Row(
             children: [
@@ -47,7 +48,7 @@ class WorkspaceBanner extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(
-                          color: AppColors.textBlue.withOpacity(0.2),
+                          color: AppColors.lightGrey.withOpacity(0.2),
                           width: 1,
                         ),
                       ),
@@ -61,7 +62,7 @@ class WorkspaceBanner extends StatelessWidget {
                               ? (currentWorkspace?.name ?? "Your Workspace")
                               : 'Setup Team Workspace',
                             style: const TextStyle(
-                              color: AppColors.textBlue,
+                              color: AppColors.lightGrey,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
@@ -72,7 +73,7 @@ class WorkspaceBanner extends StatelessWidget {
                           const SizedBox(width: 4),
                           const Icon(
                             LucideIcons.chevronDown,
-                            color: AppColors.textBlue,
+                            color: AppColors.lightGrey,
                             size: 16,
                           ),
                         ],
@@ -80,7 +81,7 @@ class WorkspaceBanner extends StatelessWidget {
                           const SizedBox(width: 8),
                           const Icon(
                             LucideIcons.arrowRight,
-                            color: AppColors.textBlue,
+                            color: AppColors.lightGrey,
                             size: 16,
                           ),
                         ],
@@ -111,7 +112,7 @@ class WorkspaceBanner extends StatelessWidget {
                             child: Text(
                               currentProject?.name ?? "No Project",
                               style: const TextStyle(
-                                color: AppColors.textBlue,
+                                color: AppColors.lightGrey,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                               ),
@@ -121,7 +122,7 @@ class WorkspaceBanner extends StatelessWidget {
                           const SizedBox(width: 4),
                           const Icon(
                             LucideIcons.chevronDown,
-                            color: AppColors.textBlue,
+                            color: AppColors.lightGrey,
                             size: 16,
                           ),
                         ],

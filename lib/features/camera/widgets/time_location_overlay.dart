@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:stamped/features/location/location_service.dart';
+import 'package:stamped/features/camera/camera_provider.dart';
 
 class TimeLocationOverlay extends StatefulWidget {
   final bool isCapturing;
@@ -192,6 +194,32 @@ class TimeLocationOverlayState extends State<TimeLocationOverlay> {
                     fontWeight: FontWeight.w500,
                     shadows: [Shadow(color: Colors.black54, blurRadius: 4)],
                   ),
+                ),
+                Consumer<CameraProvider>(
+                  builder: (context, provider, child) {
+                    if (provider.overlayNotes.trim().isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white24, width: 0.5),
+                        ),
+                        child: Text(
+                          provider.overlayNotes,
+                          style: TextStyle(
+                            color: provider.notesColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

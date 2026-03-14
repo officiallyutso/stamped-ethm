@@ -23,7 +23,7 @@ class AuthScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(LucideIcons.fingerprint, size: 64, color: Colors.blue),
+              const Icon(LucideIcons.fingerprint, size: 64, color: Color(0xFFFB4128)),
               const SizedBox(height: 24),
               const Text(
                 'Welcome to Stamped',
@@ -181,7 +181,7 @@ class _EmailSignInFieldState extends State<_EmailSignInField> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: const Color(0xFFFB4128),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

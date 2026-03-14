@@ -4,6 +4,9 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
 import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
+import 'package:stamped/core/theme/app_colors.dart';
+import 'package:stamped/core/services/backend_api_service.dart';
+
 
 class TeamSelectionScreen extends StatelessWidget {
   const TeamSelectionScreen({super.key});
@@ -32,6 +35,18 @@ class TeamSelectionScreen extends StatelessWidget {
                 
                 final joinedWorkspace = await wp.workspaceService.joinWorkspace(code, auth.user!.uid);
                 if (joinedWorkspace != null && context.mounted) {
+                  // Auto-create user wallet in this workspace
+                  try {
+                    await BackendApiService().createUserWallet(
+                      workspaceId: joinedWorkspace.id,
+                      userId: auth.user!.uid,
+                      displayName: auth.user!.displayName ?? auth.user!.email ?? 'User',
+                    );
+                    debugPrint('[INFO] User wallet created on join');
+                  } catch (e) {
+                    debugPrint('[WARN] User wallet creation failed: $e');
+                  }
+
                   wp.setWorkspace(joinedWorkspace);
                   Navigator.pop(ctx); // Close dialog
                   Navigator.pop(context); // Close team selection
@@ -70,6 +85,30 @@ class TeamSelectionScreen extends StatelessWidget {
                 final wp = Provider.of<WorkspaceProvider>(context, listen: false);
                 
                 final newWorkspace = await wp.workspaceService.createWorkspace(name, auth.user!.uid);
+                
+                // Auto-create BitGo wallet for the new workspace
+                try {
+                  await BackendApiService().createWorkspaceWallet(
+                    workspaceId: newWorkspace.id,
+                    workspaceName: newWorkspace.name,
+                  );
+                  debugPrint('[INFO] Workspace wallet created');
+                } catch (e) {
+                  debugPrint('[WARN] Workspace wallet creation failed: $e');
+                }
+
+                // Also create a user wallet for the owner in this workspace
+                try {
+                  await BackendApiService().createUserWallet(
+                    workspaceId: newWorkspace.id,
+                    userId: auth.user!.uid,
+                    displayName: auth.user!.displayName ?? auth.user!.email ?? 'Owner',
+                  );
+                  debugPrint('[INFO] Owner user wallet created');
+                } catch (e) {
+                  debugPrint('[WARN] Owner user wallet creation failed: $e');
+                }
+
                 if (context.mounted) {
                   wp.setWorkspace(newWorkspace);
                   Navigator.pop(ctx); // Close dialog
@@ -119,7 +158,7 @@ class TeamSelectionScreen extends StatelessWidget {
                 final isOwner = auth.user?.uid == workspace.ownerId;
                 
                 return Card(
-                  color: isSelected ? AppColors.primaryBlue : Colors.white,
+                  color: isSelected ? AppColors.primaryRed.withOpacity(0.4) : Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Colors.grey.shade300, width: 1),
@@ -128,7 +167,7 @@ class TeamSelectionScreen extends StatelessWidget {
                   child: ListTile(
                     title: Text(workspace.name, style: const TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text('${workspace.memberIds.length} Members • Team Owner: ${isOwner ? "You" : "Other"}'),
-                    trailing: isSelected ? const Icon(LucideIcons.checkCircle2, color: AppColors.textBlue) : null,
+                    trailing: isSelected ? const Icon(LucideIcons.checkCircle2, color: AppColors.textRed) : null,
                     onTap: () {
                       wp.setWorkspace(workspace);
                       Navigator.pop(context);

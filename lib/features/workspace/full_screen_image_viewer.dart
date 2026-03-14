@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:native_exif/native_exif.dart';
+import 'package:gal/gal.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
 import 'package:stamped/core/models/photo_model.dart';
@@ -68,9 +74,60 @@ class FullScreenImageViewer extends StatelessWidget {
     );
   }
 
-  void _downloadPhoto(BuildContext context) {
-    // Scaffold UI logic for downloading - In real app, you would use dio/http to save to gallery
+  void _downloadPhoto(BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Downloading image...')));
+    try {
+      final response = await http.get(Uri.parse(photo.cloudinaryUrl));
+      if (response.statusCode == 200) {
+        final directory = await getTemporaryDirectory();
+        final filePrefix = photo.captureId ?? photo.id;
+        final file = File('${directory.path}/$filePrefix.jpg');
+        await file.writeAsBytes(response.bodyBytes);
+
+        // Inject EXIF based on PhotoModel
+        final exif = await Exif.fromPath(file.path);
+        if (photo.imageHash != null) {
+          await exif.writeAttribute('UserComment', photo.imageHash!);
+        }
+        
+        // Re-inject the Capture ID and location
+        Map<String, dynamic> locationDataMap = {};
+        if (photo.captureId != null) {
+          locationDataMap['captureId'] = photo.captureId;
+        } else {
+          locationDataMap['captureId'] = photo.id; // fallback
+        }
+        
+        if (photo.latitude != null) {
+          locationDataMap.addAll({
+            'latitude': photo.latitude,
+            'longitude': photo.longitude,
+            'accuracy': photo.accuracy,
+            'altitude': photo.altitude,
+            'speed': photo.speed,
+            'timestamp': photo.timestamp.toIso8601String(),
+          });
+        }
+        await exif.writeAttribute('ImageDescription', jsonEncode(locationDataMap));
+        await exif.close();
+
+        // Save to gallery
+        await Gal.putImage(file.path);
+        await file.delete(); // cleanup temp file
+        
+        if (context.mounted) {
+           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Saved to Gallery with verification data!')));
+        }
+      } else {
+         if (context.mounted) {
+           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to download image.')));
+         }
+      }
+    } catch (e) {
+        if (context.mounted) {
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:stamped/features/camera/camera_provider.dart';
 import 'package:stamped/features/camera/gallery_screen.dart';
+import 'package:stamped/features/camera/widgets/templates_sheet.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class FadePageRoute<T> extends PageRouteBuilder<T> {
@@ -71,21 +72,30 @@ class CameraBottomControls extends StatelessWidget {
               ),
 
               // Templates icon
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const TemplatesSheet(),
+                  );
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                      ),
+                      child: const Icon(LucideIcons.layoutTemplate, size: 28, color: Colors.black87),
                     ),
-                    child: const Icon(LucideIcons.layoutTemplate, size: 28, color: Colors.black87),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text('Templates', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black54)),
-                ],
+                    const SizedBox(height: 6),
+                    const Text('Templates', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black54)),
+                  ],
+                ),
               ),
             ],
           ),

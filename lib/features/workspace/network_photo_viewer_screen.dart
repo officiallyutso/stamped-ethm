@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-
+import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/core/models/photo_model.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
 
@@ -285,7 +285,7 @@ class _NetworkPhotoViewerScreenState extends State<NetworkPhotoViewerScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: Colors.blue.shade400, size: 16),
+        Icon(icon, color: AppColors.primaryRed, size: 16),
         const SizedBox(width: 8),
         Expanded(
           child: Column(

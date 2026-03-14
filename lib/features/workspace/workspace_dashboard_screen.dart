@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
 import 'package:stamped/features/auth/auth_provider.dart';
 import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/core/services/cloudinary_service.dart';
+import 'package:stamped/core/services/backend_api_service.dart';
 import 'package:stamped/features/workspace/team_selection_screen.dart';
 import 'package:stamped/features/workspace/widgets/project_selection_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +19,8 @@ import 'package:stamped/core/models/project_model.dart';
 import 'package:stamped/features/workspace/member_profile_screen.dart';
 import 'package:stamped/features/workspace/project_details_screen.dart';
 import 'package:stamped/features/workspace/network_photo_viewer_screen.dart';
+import 'package:stamped/features/verification/verify_photo_screen.dart';
+import 'package:stamped/features/workspace/payout_dashboard_screen.dart';
 
 class WorkspaceDashboardScreen extends StatefulWidget {
   const WorkspaceDashboardScreen({super.key});
@@ -107,12 +111,12 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.primaryBlue.withOpacity(0.3),
+              color: AppColors.primaryRed.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.camera, color: AppColors.textBlue),
+                const Icon(LucideIcons.camera, color: AppColors.textRed),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -233,7 +237,7 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: Colors.blueAccent,
+                                    color: AppColors.primaryRed,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: const Text('Owner', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
@@ -344,10 +348,10 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.shade50,
+                                  color: AppColors.primaryRed.withOpacity(0.1),
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(LucideIcons.folder, color: Colors.blueAccent),
+                                child: const Icon(LucideIcons.folder, color: AppColors.primaryRed),
                               ),
                               const SizedBox(height: 16),
                               Expanded(
@@ -472,10 +476,31 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
       children: [
         const Text('Tools', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
+        _verifyPhotoCard(context),
         _toolCard(LucideIcons.fileSpreadsheet, 'Excel Report', 'Export workspace data to Excel'),
         _toolCard(LucideIcons.fileText, 'PDF Report', 'Generate a PDF summary'),
         _toolCard(LucideIcons.history, 'File Version Report', 'View document iterations'),
       ],
+    );
+  }
+
+  Widget _verifyPhotoCard(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: AppColors.primaryRed, width: 1.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        leading: const Icon(LucideIcons.shieldCheck, color: AppColors.primaryRed),
+        title: const Text('Verify Photo Authenticity', style: TextStyle(fontWeight: FontWeight.w600)),
+        subtitle: const Text('Check an image\'s origin against the database'),
+        trailing: const Icon(LucideIcons.chevronRight, size: 16),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const VerifyPhotoScreen()));
+        },
+      ),
     );
   }
 
@@ -488,7 +513,7 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(icon, color: AppColors.textBlue),
+        leading: Icon(icon, color: AppColors.textRed),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text(subtitle),
         trailing: const Icon(LucideIcons.chevronRight, size: 16),
@@ -537,6 +562,9 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
       return const Center(child: Text("No Workspace Selected"));
     }
 
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final isOwner = authProvider.user?.uid == currentWorkspace.ownerId;
+
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -558,6 +586,254 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
           subtitle: Text(currentWorkspace.ownerId),
         ),
         
+        const SizedBox(height: 24),
+
+        // ── WALLET SECTION ──
+        const Text('💰 Wallet', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+
+        if (currentWorkspace.walletAddress != null) ...[
+          ListTile(
+            leading: const Icon(LucideIcons.wallet, color: AppColors.primaryRed),
+            title: const Text('Wallet Address'),
+            subtitle: Text(
+              currentWorkspace.walletAddress!,
+              style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+              icon: const Icon(LucideIcons.copy, size: 16),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: currentWorkspace.walletAddress!));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Wallet address copied!')),
+                );
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(LucideIcons.coins, color: Colors.green),
+            title: const Text('Balance'),
+            subtitle: Text('${currentWorkspace.walletBalance ?? "0"} ETH'),
+            trailing: IconButton(
+              icon: const Icon(LucideIcons.refreshCw, size: 16),
+              onPressed: () async {
+                try {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Refreshing balance...')),
+                  );
+                  final result = await BackendApiService().getWalletBalance(
+                    workspaceId: currentWorkspace.id,
+                  );
+                  // Reload workspace to get updated balance
+                  await wp.loadUserWorkspace(authProvider.user!.uid);
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Balance: ${result['balanceEth']} ETH')),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error refreshing balance: $e')),
+                    );
+                  }
+                }
+              },
+            ),
+          ),
+          if (currentWorkspace.walletLastSynced != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'Last synced: ${_formatTimeAgo(currentWorkspace.walletLastSynced!)}',
+                style: const TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ),
+        ] else ...[
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.orange.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(LucideIcons.alertCircle, color: Colors.orange.shade700, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'No wallet created yet. Creating wallet...',
+                    style: TextStyle(color: Colors.orange.shade700),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+
+        const SizedBox(height: 24),
+
+        // ── PAYOUT DASHBOARD (Owner Only) ──
+        if (isOwner) ...[
+          const Text('👥 Payouts', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          ListTile(
+            leading: const Icon(LucideIcons.send, color: AppColors.primaryRed),
+            title: const Text('Payout Dashboard', style: TextStyle(fontWeight: FontWeight.w600)),
+            subtitle: const Text('View earnings & send payouts'),
+            trailing: const Icon(LucideIcons.chevronRight, size: 16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PayoutDashboardScreen()),
+              );
+            },
+          ),
+          const SizedBox(height: 24),
+        ],
+
+        // ── MY WALLET (auto-generated) ──
+        const Text('💳 My Wallet', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        FutureBuilder<Map<String, dynamic>?>(
+          future: BackendApiService().getUserWallet(
+            workspaceId: currentWorkspace.id,
+            userId: authProvider.user!.uid,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const ListTile(
+                leading: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+                title: Text('Loading wallet...'),
+              );
+            }
+
+            final walletData = snapshot.data;
+            if (walletData == null) {
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(LucideIcons.alertCircle, color: Colors.orange.shade700, size: 20),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Wallet being created... This may take a moment.',
+                        style: TextStyle(color: Colors.orange.shade700),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            final address = walletData['walletAddress'] ?? '';
+            final balance = walletData['walletBalance'] ?? '0';
+
+            return Column(
+              children: [
+                ListTile(
+                  leading: const Icon(LucideIcons.wallet, color: AppColors.primaryRed),
+                  title: const Text('My Wallet Address'),
+                  subtitle: Text(
+                    address,
+                    style: const TextStyle(fontSize: 11, fontFamily: 'monospace'),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(LucideIcons.copy, size: 16),
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: address));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Wallet address copied!')),
+                      );
+                    },
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(LucideIcons.coins, color: Colors.green),
+                  title: const Text('My Wallet Balance'),
+                  subtitle: Text('$balance ETH'),
+                ),
+              ],
+            );
+          },
+        ),
+
+        const SizedBox(height: 24),
+
+        // ── MY EARNINGS ──
+        const Text('📊 My Earnings', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        FutureBuilder<List<dynamic>>(
+          future: BackendApiService().getWorkspaceEarnings(workspaceId: currentWorkspace.id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+              );
+            }
+
+            // Find current user's earnings in the summary
+            final earnings = snapshot.data ?? [];
+            Map<String, dynamic>? myEarnings;
+            for (final e in earnings) {
+              if (e['userId'] == authProvider.user!.uid) {
+                myEarnings = Map<String, dynamic>.from(e);
+                break;
+              }
+            }
+
+            final totalEarned = myEarnings?['totalEarnedEth'] ?? '0';
+            final totalPaid = myEarnings?['totalPaidEth'] ?? '0';
+            final pending = myEarnings?['pendingEth'] ?? '0';
+            final pendingWei = myEarnings?['pendingWei'] ?? '0';
+
+            return Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _earningsInfoChip('Earned', '$totalEarned ETH', Colors.blue),
+                      _earningsInfoChip('Paid', '$totalPaid ETH', Colors.green),
+                      _earningsInfoChip('Pending', '$pending ETH', Colors.orange),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: pending != '0'
+                          ? () => _showCheckoutDialog(pending, pendingWei)
+                          : null,
+                      icon: const Icon(LucideIcons.banknote, size: 16),
+                      label: const Text('Checkout Earnings'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryRed,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+
         const SizedBox(height: 24),
         const Text('Access & Members', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
         const SizedBox(height: 8),
@@ -599,6 +875,118 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
     );
   }
 
+  void _showCheckoutDialog(String pendingEth, String pendingWei) {
+    final addressController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Checkout Earnings'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(LucideIcons.coins, color: Colors.green.shade700, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Pending: $pendingEth ETH',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green.shade700),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: addressController,
+              decoration: const InputDecoration(
+                labelText: 'External Wallet Address',
+                hintText: '0x...',
+                helperText: 'Where to receive your funds',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.amber.shade50,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(LucideIcons.info, color: Colors.amber.shade700, size: 16),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(
+                      'Coming soon — your request will be queued for processing.',
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          ElevatedButton(
+            onPressed: () {
+              final address = addressController.text.trim();
+              if (address.isNotEmpty && address.startsWith('0x')) {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Checkout request submitted! (Processing coming soon)')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please enter a valid ETH address')),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryRed),
+            child: const Text('Request Payout', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _earningsInfoChip(String label, String value, Color color) {
+    return Column(
+      children: [
+        Text(label, style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
+        const SizedBox(height: 2),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  String _formatTimeAgo(DateTime dateTime) {
+    final diff = DateTime.now().difference(dateTime);
+    if (diff.inMinutes < 1) return 'just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes} min ago';
+    if (diff.inHours < 24) return '${diff.inHours} hr ago';
+    return '${diff.inDays} days ago';
+  }
+
   @override
   Widget build(BuildContext context) {
     final wp = Provider.of<WorkspaceProvider>(context);
@@ -616,15 +1004,15 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
             // Trial Banner
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: Colors.blue.shade50,
+              color: AppColors.primaryRed.withOpacity(0.4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("14 days left on trial", style: TextStyle(fontSize: 16)),
                   Row(
                     children: [
-                      Text("Upgrade", style: TextStyle(color: Colors.blue.shade700, fontWeight: FontWeight.bold)),
-                      Icon(LucideIcons.chevronRight, size: 16, color: Colors.blue.shade700),
+                      Text("Upgrade", style: TextStyle(color: AppColors.textRed, fontWeight: FontWeight.bold)),
+                      Icon(LucideIcons.chevronRight, size: 16, color: AppColors.textRed),
                     ],
                   ),
                 ],
@@ -661,13 +1049,13 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isSelected ? Colors.blue : Colors.grey),
+          Icon(icon, color: isSelected ? AppColors.primaryRed : Colors.grey),
           const SizedBox(height: 4),
           Text(
             label, 
             style: TextStyle(
               fontSize: 12, 
-              color: isSelected ? Colors.blue : Colors.grey,
+              color: isSelected ? AppColors.textRed : Colors.grey,
             ),
           ),
         ],

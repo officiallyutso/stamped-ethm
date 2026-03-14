@@ -55,15 +55,7 @@ class BottomNavigationTabs extends StatelessWidget {
               isSelected: currentIndex == 3,
               onTap: () => onNavigate(3),
             ),
-            _NavTab(
-              text: 'MPC SIGN',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MpcSignPage()),
-                );
-              },
-            ),
+            
           ],
         ),
       ),

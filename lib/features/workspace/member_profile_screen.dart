@@ -26,6 +26,11 @@ class MemberProfileScreen extends StatelessWidget {
       );
     }
 
+    final currentUser = Provider.of<AuthProvider>(context, listen: false).user;
+    final isOwner = currentWorkspace.ownerId == currentUser?.uid;
+    final isSelf = memberId == currentUser?.uid;
+    final canRemove = isOwner && !isSelf;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,6 +44,42 @@ class MemberProfileScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: canRemove ? [
+          IconButton(
+            icon: const Icon(LucideIcons.userMinus, color: Colors.red),
+            tooltip: 'Remove Member',
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('Remove Member'),
+                  content: const Text('Are you sure you want to remove this member from the workspace? They will lose access to all projects and photos.'),
+                  actions: [
+                    TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(ctx);
+                        try {
+                          await wp.workspaceService.removeMember(currentWorkspace.id, memberId);
+                          // the localized check is just to safely pop context
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Member removed from workspace.')));
+                            Navigator.pop(context); // Go back to dashboard after removed
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to remove member: \$e')));
+                          }
+                        }
+                      }, 
+                      child: const Text('Remove', style: TextStyle(color: Colors.red))
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ] : null,
       ),
       body: StreamBuilder<List<PhotoModel>>(
         stream: wp.workspaceService.getWorkspacePhotos(currentWorkspace.id),
@@ -115,12 +156,12 @@ class MemberProfileScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade50,
+                            color: const Color(0xFFFB4128).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             'Last seen: $lastLoginStr',
-                            style: TextStyle(fontSize: 12, color: Colors.blue.shade800, fontWeight: FontWeight.w500),
+                            style: const TextStyle(fontSize: 12, color: Color(0xFFFB4128), fontWeight: FontWeight.w500),
                           ),
                         ),
                         const SizedBox(height: 16),

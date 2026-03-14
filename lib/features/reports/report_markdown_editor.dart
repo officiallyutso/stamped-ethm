@@ -14,6 +14,8 @@ import 'widgets/hold_to_confirm_button.dart';
 import 'report_result_screen.dart';
 import 'package:stamped/core/services/firestore_report_service.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:stamped/core/theme/app_colors.dart';
+
 
 class ReportMarkdownEditor extends StatefulWidget {
   final List<File> selectedImages;
@@ -314,7 +316,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
                             child: HoldToConfirmButton(
                               text: "GENERATE REPORT",
                               onConfirmed: _generateAndSubmitReport,
-                              color: Colors.blue,
+                              color: AppColors.textRed,
                             ),
                           ),
                         ),
@@ -335,7 +337,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
                                   const Text(
                                     "REPORT GENERATION PROGRESS",
                                     style: TextStyle(
-                                      color: Colors.blue,
+                                      color: AppColors.textRed,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       letterSpacing: 1.2,
@@ -442,7 +444,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "🖼 Image Evidence",
+                  "Image Evidence",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 Text(
@@ -452,7 +454,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
                 const Text(
                   "Base64 data stored internally",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: AppColors.textRed,
                     fontSize: 10,
                     fontStyle: FontStyle.italic,
                   ),

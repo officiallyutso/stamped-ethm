@@ -11,6 +11,7 @@ import 'dart:io';
 import 'package:native_exif/native_exif.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/services/zk_prover_service.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -198,10 +199,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.4),
                                       borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: Colors.blue, width: 3),
+                                      border: Border.all(color: AppColors.primaryRed, width: 3),
                                     ),
                                     child: const Center(
-                                      child: Icon(Icons.check_circle, color: Colors.blue, size: 32),
+                                      child: Icon(Icons.check_circle, color: AppColors.primaryRed, size: 32),
                                     ),
                                   ),
                               ],
@@ -446,7 +447,7 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: Colors.blue.shade400, size: 16),
+        Icon(icon, color: AppColors.primaryRed, size: 16),
         const SizedBox(width: 8),
         Expanded(
           child: Column(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:stamped/core/theme/app_colors.dart';
 
 class ReportResultScreen extends StatelessWidget {
   final bool isSuccess;
@@ -76,7 +77,7 @@ class ReportResultScreen extends StatelessWidget {
                 child: Text(
                   fileverseLink!,
                   style: const TextStyle(
-                    color: Colors.blue,
+                    color: AppColors.textRed,
                     decoration: TextDecoration.underline,
                     fontSize: 14,
                   ),
@@ -95,7 +96,7 @@ class ReportResultScreen extends StatelessWidget {
                 label: const Text("View Report"),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: AppColors.primaryRed,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangle_circular(12),
                 ),
