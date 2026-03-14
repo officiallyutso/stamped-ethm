@@ -5,10 +5,10 @@ import '../../bitgo_mpc/bitgo_config.dart';
 
 class BackendApiService {
   // Use config-defined base URL (points to http://localhost:4000/api)
-  final String _baseUrl = BitGoConfig.backendBaseUrl; 
+  final String _baseUrl = BitGoConfig.backendBaseUrl;
 
   // ============================================================
-  // Fileverse (existing)
+  // Fileverse
   // ============================================================
 
   Future<Map<String, dynamic>> createFileverseDoc({
@@ -32,6 +32,50 @@ class BackendApiService {
       }
     } catch (e) {
       print('Backend API Error: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getFileverseDocStatus(String ddocId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/fileverse/status/$ddocId'),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to get document status: ${response.body}');
+      }
+    } catch (e) {
+      print('Backend API Error (Status Check): $e');
+      rethrow;
+    }
+  }
+
+  /// Update an existing Fileverse document
+  Future<Map<String, dynamic>> updateFileverseDoc({
+    required String docId,
+    required String content,
+    String? title,
+  }) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$_baseUrl/fileverse/updateFileverseDoc/$docId'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'content': content,
+          if (title != null) 'title': title,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Update doc error: ${response.body}');
+      }
+    } catch (e) {
+      print('Backend API Error (Update): $e');
       rethrow;
     }
   }

@@ -628,6 +628,7 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
                   // Reload workspace to get updated balance
                   await wp.loadUserWorkspace(authProvider.user!.uid);
                   if (mounted) {
+                    setState(() {});
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Balance: ${result['balanceEth']} ETH')),
                     );
@@ -767,72 +768,7 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
 
         const SizedBox(height: 24),
 
-        // ── MY EARNINGS ──
-        const Text('📊 My Earnings', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
-        const SizedBox(height: 8),
-        FutureBuilder<List<dynamic>>(
-          future: BackendApiService().getWorkspaceEarnings(workspaceId: currentWorkspace.id),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-              );
-            }
 
-            // Find current user's earnings in the summary
-            final earnings = snapshot.data ?? [];
-            Map<String, dynamic>? myEarnings;
-            for (final e in earnings) {
-              if (e['userId'] == authProvider.user!.uid) {
-                myEarnings = Map<String, dynamic>.from(e);
-                break;
-              }
-            }
-
-            final totalEarned = myEarnings?['totalEarnedEth'] ?? '0';
-            final totalPaid = myEarnings?['totalPaidEth'] ?? '0';
-            final pending = myEarnings?['pendingEth'] ?? '0';
-            final pendingWei = myEarnings?['pendingWei'] ?? '0';
-
-            return Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _earningsInfoChip('Earned', '$totalEarned ETH', Colors.blue),
-                      _earningsInfoChip('Paid', '$totalPaid ETH', Colors.green),
-                      _earningsInfoChip('Pending', '$pending ETH', Colors.orange),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: pending != '0'
-                          ? () => _showCheckoutDialog(pending, pendingWei)
-                          : null,
-                      icon: const Icon(LucideIcons.banknote, size: 16),
-                      label: const Text('Checkout Earnings'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryRed,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
 
         const SizedBox(height: 24),
         const Text('Access & Members', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
@@ -875,108 +811,7 @@ class _WorkspaceDashboardScreenState extends State<WorkspaceDashboardScreen> {
     );
   }
 
-  void _showCheckoutDialog(String pendingEth, String pendingWei) {
-    final addressController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Checkout Earnings'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.green.shade50,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Icon(LucideIcons.coins, color: Colors.green.shade700, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Pending: $pendingEth ETH',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green.shade700),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                labelText: 'External Wallet Address',
-                hintText: '0x...',
-                helperText: 'Where to receive your funds',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.amber.shade50,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Icon(LucideIcons.info, color: Colors.amber.shade700, size: 16),
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: Text(
-                      'Coming soon — your request will be queued for processing.',
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          ElevatedButton(
-            onPressed: () {
-              final address = addressController.text.trim();
-              if (address.isNotEmpty && address.startsWith('0x')) {
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Checkout request submitted! (Processing coming soon)')),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please enter a valid ETH address')),
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryRed),
-            child: const Text('Request Payout', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _earningsInfoChip(String label, String value, Color color) {
-    return Column(
-      children: [
-        Text(label, style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
-        const SizedBox(height: 2),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
-          ),
-        ),
-      ],
-    );
-  }
 
 
   String _formatTimeAgo(DateTime dateTime) {

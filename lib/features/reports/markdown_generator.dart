@@ -29,7 +29,7 @@ class MarkdownGenerator {
 
   /// Generates markdown suitable for sending to Fileverse.
   /// Base64 image data is replaced with a compact placeholder to avoid
-  /// exceeding Cloudflare Worker memory limits (Error 1102).
+  /// exceeding Fileverse API payload limits ("request entity too large").
   static Future<String> generateForFileverse(List<ReportBlock> blocks, {String? title}) async {
     final now = DateTime.now();
     StringBuffer sb = StringBuffer();

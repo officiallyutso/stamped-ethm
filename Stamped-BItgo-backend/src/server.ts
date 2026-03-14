@@ -2,16 +2,20 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { config } from './config/bitgoConfig';
 import signRoutes from './routes/signRoutes';
+import walletRoutes from './routes/walletRoutes';
+import fileverseRoutes from './routes/fileverseRoutes';
 import { CustodyArchitectureService } from './services/custodialWalletService';
 import { BitGoTransactionService } from './services/bitgoTransactionService';
 
 const app = express();
 
-// Limit message size to prevent payloads larger than defined norms
-app.use(bodyParser.json({ limit: '10kb' }));
+// Increased limit to 50mb for Fileverse document content
+app.use(bodyParser.json({ limit: '50mb' }));
 
 // Register routes
 app.use('/api', signRoutes);
+app.use('/api', walletRoutes);
+app.use('/api/fileverse', fileverseRoutes);
 
 const custodyService = new CustodyArchitectureService();
 const transactionService = new BitGoTransactionService();

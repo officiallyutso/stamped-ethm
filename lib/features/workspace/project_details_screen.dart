@@ -4,11 +4,13 @@ import 'package:stamped/core/models/project_model.dart';
 import 'package:stamped/core/models/photo_model.dart';
 import 'package:stamped/core/models/attendance_model.dart';
 import 'package:stamped/core/services/workspace_service.dart';
+import 'package:stamped/core/services/firestore_report_service.dart';
 import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/features/workspace/network_photo_viewer_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   final ProjectModel project;
@@ -22,6 +24,7 @@ class ProjectDetailsScreen extends StatefulWidget {
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
     with SingleTickerProviderStateMixin {
   final WorkspaceService _workspaceService = WorkspaceService();
+  final FirestoreReportService _reportService = FirestoreReportService();
   bool _hasAttendance = false;
   bool _loading = true;
   TabController? _tabController;
@@ -38,8 +41,10 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
       setState(() {
         _hasAttendance = has;
         _loading = false;
+        // Always show tabs: Photos + Reports (+ Attendance if exists)
+        final tabCount = _hasAttendance ? 3 : 2;
         _tabController = TabController(
-          length: _hasAttendance ? 2 : 1,
+          length: tabCount,
           vsync: this,
         );
       });
@@ -50,6 +55,28 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
   void dispose() {
     _tabController?.dispose();
     super.dispose();
+  }
+
+  List<Tab> _buildTabs() {
+    final tabs = <Tab>[
+      const Tab(text: 'Photos'),
+    ];
+    if (_hasAttendance) {
+      tabs.add(const Tab(text: 'Attendance'));
+    }
+    tabs.add(const Tab(text: 'Reports'));
+    return tabs;
+  }
+
+  List<Widget> _buildTabViews() {
+    final views = <Widget>[
+      _buildPhotosTab(),
+    ];
+    if (_hasAttendance) {
+      views.add(_buildAttendanceTab());
+    }
+    views.add(_buildReportsTab());
+    return views;
   }
 
   @override
@@ -69,19 +96,14 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        bottom: _hasAttendance
-            ? TabBar(
-                controller: _tabController,
-                labelColor: AppColors.primaryRed,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: AppColors.primaryRed,
-                indicatorWeight: 3,
-                tabs: const [
-                  Tab(text: 'Photos'),
-                  Tab(text: 'Attendance'),
-                ],
-              )
-            : null,
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: AppColors.primaryRed,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: AppColors.primaryRed,
+          indicatorWeight: 3,
+          tabs: _buildTabs(),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,15 +124,10 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
             ),
           const Divider(height: 1),
           Expanded(
-            child: _hasAttendance
-                ? TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _buildPhotosTab(),
-                      _buildAttendanceTab(),
-                    ],
-                  )
-                : _buildPhotosTab(),
+            child: TabBarView(
+              controller: _tabController,
+              children: _buildTabViews(),
+            ),
           ),
         ],
       ),
@@ -423,5 +440,166 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
       return '${m}M';
     }
     return null;
+  }
+
+  Widget _buildReportsTab() {
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: _reportService.getProjectReports(widget.project.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final reports = snapshot.data ?? [];
+        if (reports.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(LucideIcons.fileText, size: 48, color: Colors.grey[300]),
+                const SizedBox(height: 16),
+                Text(
+                  'No reports here',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                Text(
+                  'Upload a report from the Reports History tab',
+                  style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: reports.length,
+          itemBuilder: (context, index) {
+            final report = reports[index];
+            final title = report['reportTitle'] ?? 'Report';
+            final link = report['fileverseLink'] ?? '';
+            final uploaderName = report['uploaderName'] ?? 'Unknown User';
+            
+            String dateText = 'Unknown date';
+            if (report['uploadedAt'] != null && report['uploadedAt'] is Timestamp) {
+              dateText = DateFormat('MMM d, yyyy').format((report['uploadedAt'] as Timestamp).toDate());
+            }
+
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade200),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.03),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryRed.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            LucideIcons.fileText,
+                            color: AppColors.primaryRed,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(LucideIcons.user, size: 12, color: Colors.grey[500]),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    uploaderName,
+                                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Icon(LucideIcons.calendar, size: 12, color: Colors.grey[500]),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    dateText,
+                                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (link.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      InkWell(
+                        onTap: () => launchUrl(Uri.parse(link)),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(LucideIcons.externalLink, size: 14, color: AppColors.primaryRed),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  link,
+                                  style: const TextStyle(
+                                    color: AppColors.primaryRed,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

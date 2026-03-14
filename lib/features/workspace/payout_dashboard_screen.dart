@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:stamped/core/services/backend_api_service.dart';
 import 'package:stamped/core/theme/app_colors.dart';
 import 'package:stamped/features/workspace/workspace_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PayoutDashboardScreen extends StatefulWidget {
   const PayoutDashboardScreen({super.key});
@@ -22,6 +24,15 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
   List<dynamic> _payoutHistory = [];
   String _treasuryBalance = '0';
   String _treasuryBalanceWei = '0';
+  final Map<String, TextEditingController> _amountControllers = {};
+
+  @override
+  void dispose() {
+    for (var controller in _amountControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -79,10 +90,12 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
     final workspace = wp.currentWorkspace;
     if (workspace == null) return;
 
+    final userId = member['userId'];
     final payoutAddress = member['payoutAddress'];
-    final pendingWei = member['pendingWei'];
-    final pendingEth = member['pendingEth'];
     final displayName = member['displayName'] ?? 'Unknown';
+    
+    final controller = _amountControllers[userId];
+    final amountEthInput = controller?.text.trim() ?? '';
 
     if (payoutAddress == null || payoutAddress.toString().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -91,12 +104,14 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
       return;
     }
 
-    if (pendingWei == '0' || pendingWei == null) {
+    if (amountEthInput.isEmpty || double.tryParse(amountEthInput) == null || double.parse(amountEthInput) <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$displayName has no pending earnings')),
+        const SnackBar(content: Text('Please enter a valid amount greater than 0')),
       );
       return;
     }
+
+    final amountWei = (double.parse(amountEthInput) * 1e18).truncate().toString();
 
     // Confirmation dialog
     final confirmed = await showDialog<bool>(
@@ -107,7 +122,7 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Send $pendingEth ETH to $displayName?'),
+            Text('Send $amountEthInput ETH to $displayName?'),
             const SizedBox(height: 8),
             Text(
               'Address: ${payoutAddress.toString().substring(0, 10)}...${payoutAddress.toString().substring(payoutAddress.toString().length - 6)}',
@@ -133,15 +148,16 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
     try {
       await _apiService.sendPayout(
         workspaceId: workspace.id,
-        userId: member['userId'],
+        userId: userId,
         toAddress: payoutAddress,
-        amountWei: pendingWei,
+        amountWei: amountWei,
       );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Payout sent to $displayName!')),
         );
+        controller?.clear();
         _loadData(); // Refresh
       }
     } catch (e) {
@@ -187,11 +203,13 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
                     ],
                   ),
                 )
-              : RefreshIndicator(
-                  onRefresh: _loadData,
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: [
+              : SafeArea(
+                  bottom: true,
+                  child: RefreshIndicator(
+                    onRefresh: _loadData,
+                    child: ListView(
+                      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 32),
+                      children: [
                       // Treasury Balance Card
                       _buildTreasuryCard(),
                       const SizedBox(height: 24),
@@ -216,6 +234,7 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
                     ],
                   ),
                 ),
+              ),
     );
   }
 
@@ -258,12 +277,14 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
   Widget _buildMemberCard(dynamic member) {
     final name = member['displayName'] ?? 'Unknown';
     final email = member['email'] ?? '';
-    final pendingEth = member['pendingEth'] ?? '0';
-    final totalEarnedEth = member['totalEarnedEth'] ?? '0';
-    final totalPaidEth = member['totalPaidEth'] ?? '0';
+    final userId = member['userId'];
     final payoutAddress = member['payoutAddress'];
     final hasPayout = payoutAddress != null && payoutAddress.toString().isNotEmpty;
-    final hasPending = pendingEth != '0' && pendingEth != null;
+
+    if (!_amountControllers.containsKey(userId)) {
+      _amountControllers[userId] = TextEditingController();
+    }
+    final controller = _amountControllers[userId];
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -304,16 +325,17 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
           const Divider(height: 1),
           const SizedBox(height: 12),
 
-          // Earnings info
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _earningsChip('Earned', '$totalEarnedEth ETH', Colors.blue),
-              _earningsChip('Paid', '$totalPaidEth ETH', Colors.green),
-              _earningsChip('Pending', '$pendingEth ETH', Colors.orange),
-            ],
-          ),
-
+          if (hasPayout)
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                labelText: 'Amount to Pay (ETH)',
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            ),
+            
           const SizedBox(height: 12),
 
           // Payout address
@@ -347,7 +369,7 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: (hasPending && hasPayout && !_isSendingPayout) 
+              onPressed: (hasPayout && !_isSendingPayout) 
                   ? () => _sendPayout(member as Map<String, dynamic>)
                   : null,
               icon: _isSendingPayout
@@ -390,7 +412,30 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
     final amountEth = payout['amountEth'] ?? '0';
     final txHash = payout['txHash'] ?? '';
     final status = payout['status'] ?? 'unknown';
-    final createdAt = payout['createdAt'] ?? '';
+    final createdAtRaw = payout['createdAt'] ?? '';
+    final userId = payout['userId'] ?? '';
+    
+    // Find the user's name from the loaded _earningsSummaries list
+    String recipientName = 'Unknown User';
+    if (userId.isNotEmpty) {
+      try {
+        final member = _earningsSummaries.firstWhere((m) => m['userId'] == userId);
+        recipientName = member['displayName'] ?? 'Unknown User';
+      } catch (e) {
+        // User not found in current member list
+      }
+    }
+
+    // Format date if possible
+    String dateStr = '';
+    if (createdAtRaw.toString().isNotEmpty) {
+      try {
+        final DateTime dt = DateTime.parse(createdAtRaw.toString());
+        dateStr = DateFormat('MMM d, yyyy - h:mm a').format(dt);
+      } catch (e) {
+        dateStr = createdAtRaw.toString().split('T').first;
+      }
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -419,7 +464,15 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('$amountEth ETH', style: const TextStyle(fontWeight: FontWeight.bold)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('$amountEth ETH', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    if (dateStr.isNotEmpty)
+                      Text(dateStr, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                  ],
+                ),
+                Text('To: $recipientName', style: const TextStyle(fontSize: 12, color: Colors.black87)),
                 if (txHash.toString().isNotEmpty)
                   GestureDetector(
                     onTap: () {
@@ -436,20 +489,45 @@ class _PayoutDashboardScreenState extends State<PayoutDashboardScreen> {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: status == 'completed' ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              status.toString().toUpperCase(),
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-                color: status == 'completed' ? Colors.green : Colors.orange,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: status == 'completed' ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  status.toString().toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: status == 'completed' ? Colors.green : Colors.orange,
+                  ),
+                ),
               ),
-            ),
+              if (txHash.toString().isNotEmpty) ...[
+                const SizedBox(height: 8),
+                InkWell(
+                  onTap: () async {
+                    final url = Uri.parse('https://eth-hoodi.blockscout.com/tx/$txHash');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('Explorer', style: TextStyle(fontSize: 10, color: AppColors.primaryRed, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 4),
+                      const Icon(LucideIcons.externalLink, size: 10, color: AppColors.primaryRed),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),

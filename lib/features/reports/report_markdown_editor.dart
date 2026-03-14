@@ -29,6 +29,7 @@ class ReportMarkdownEditor extends StatefulWidget {
 class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
   bool _isLoading = true;
   bool _isSaving = false;
+  int _currentStep = 0; // 0=not started, 1=generating, 2=uploading, 3=saving
   List<ReportBlock> _blocks = [];
   String _previewMarkdown = "";
   final List<String> _generationLogs = [];
@@ -62,42 +63,39 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
 
       for (int i = 0; i < widget.selectedImages.length; i++) {
         final file = widget.selectedImages[i];
-        for (int i = 0; i < widget.selectedImages.length; i++) {
-          final file = widget.selectedImages[i];
 
-          // Compress image before Base64 encoding
-          final compressedBytes = await FlutterImageCompress.compressWithFile(
-            file.absolute.path,
-            minWidth: 1280,
-            minHeight: 1280,
-            quality: 60,
-            format: CompressFormat.jpeg,
-          );
+        // Compress image before Base64 encoding
+        final compressedBytes = await FlutterImageCompress.compressWithFile(
+          file.absolute.path,
+          minWidth: 1280,
+          minHeight: 1280,
+          quality: 60,
+          format: CompressFormat.jpeg,
+        );
 
-          final bytes = compressedBytes ?? await file.readAsBytes();
+        final bytes = compressedBytes ?? await file.readAsBytes();
 
-          // Find matching metadata
-          CaptureMetadata? metadata;
-          if (i < metadataList.length) {
-            metadata = metadataList[i];
-          }
-
-          initialBlocks.add(
-            ImageBlock(
-              id: 'image_$i',
-              file: file,
-              metadata: metadata,
-              base64Data: base64Encode(bytes),
-            ),
-          );
-
-          initialBlocks.add(
-            TextBlock(
-              id: 'text_$i',
-              initialText: '> Enter notes here for Evidence ${i + 1}\n',
-            ),
-          );
+        // Find matching metadata
+        CaptureMetadata? metadata;
+        if (i < metadataList.length) {
+          metadata = metadataList[i];
         }
+
+        initialBlocks.add(
+          ImageBlock(
+            id: 'image_$i',
+            file: file,
+            metadata: metadata,
+            base64Data: base64Encode(bytes),
+          ),
+        );
+
+        initialBlocks.add(
+          TextBlock(
+            id: 'text_$i',
+            initialText: '> Enter notes here for Evidence ${i + 1}\n',
+          ),
+        );
       }
 
       setState(() {
@@ -134,12 +132,14 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
   Future<void> _saveToFileverse() async {
     setState(() {
       _isSaving = true;
+      _currentStep = 1;
       _generationLogs.clear();
     });
     try {
-      _addLog("Generating markdown (images excluded for Fileverse)...");
+      _addLog("Generating markdown with images for Fileverse...");
       final fileverseMarkdown = await MarkdownGenerator.generateForFileverse(_blocks);
 
+      setState(() => _currentStep = 2);
       _addLog("Sending to Fileverse...");
       final backend = BackendApiService();
       final result = await backend.createFileverseDoc(
@@ -175,21 +175,24 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
         ).showSnackBar(SnackBar(content: Text("Failed to save: $e")));
       }
     } finally {
-      if (mounted) setState(() => _isSaving = false);
+      if (mounted) setState(() { _isSaving = false; _currentStep = 0; });
     }
   }
 
   Future<void> _generateAndSubmitReport() async {
     setState(() {
       _isSaving = true;
+      _currentStep = 1;
       _generationLogs.clear();
     });
     try {
-      _addLog("Step 1: Generating lightweight markdown for Fileverse (images excluded)...");
-      // 1. Generate Fileverse-safe markdown WITHOUT Base64 images
+      _addLog("Step 1: Generating lightweight markdown for Fileverse...");
+      // 1. Generate Fileverse markdown with Base64 images
       final fileverseMarkdown = await MarkdownGenerator.generateForFileverse(_blocks);
 
-      _addLog("Step 2: Sending request to backend Fileverse service...");
+      setState(() => _currentStep = 2);
+      _addLog("Uploading to Fileverse (may take up to 60s)...");
+      
       // 2. Call backend API for Fileverse
       final backend = BackendApiService();
       final result = await backend.createFileverseDoc(
@@ -199,22 +202,29 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
       );
 
       final shareableLink = result['shareableLink'];
-      if (shareableLink == null)
-        throw Exception("Failed to get shareable link from Fileverse");
-      _addLog("Step 2 verified: Shareable link received.");
+      final ddocId = result['documentId'] ?? result['ddocId'] ?? result['id'];
+      if (shareableLink == null || shareableLink.isEmpty) {
+        throw Exception("Failed to get official shareable link from Fileverse backend");
+      }
+      
+      _addLog("Link ready: $shareableLink");
 
-      _addLog("Step 3: Storing report metadata in Firestore...");
+      setState(() => _currentStep = 3);
+      _addLog("Saving report to Firestore...");
       // 3. Store in Firestore under users/{uid}/reports
+      final markdownContent = fileverseMarkdown;
       await _firestoreReportService.saveReport(
         fileverseLink: shareableLink,
+        ddocId: ddocId?.toString(),
         title: "Field Inspection Report",
         imageCount: _blocks.whereType<ImageBlock>().length,
+        markdownContent: markdownContent,
         imageIds: _blocks
             .whereType<ImageBlock>()
             .map((b) => b.metadata?.captureId ?? 'unknown')
             .toList(),
       );
-      _addLog("Step 3 complete: Firestore updated.");
+      _addLog("Firestore updated.");
 
       if (mounted) {
         Navigator.push(
@@ -242,7 +252,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
         );
       }
     } finally {
-      if (mounted) setState(() => _isSaving = false);
+      if (mounted) setState(() { _isSaving = false; _currentStep = 0; });
     }
   }
 
@@ -322,69 +332,7 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
                         ),
                       ),
                       if (_isSaving)
-                        Container(
-                          color: Colors.black87,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(height: 24),
-                                  const Text(
-                                    "REPORT GENERATION PROGRESS",
-                                    style: TextStyle(
-                                      color: AppColors.textRed,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                      letterSpacing: 1.2,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Container(
-                                    height: 200,
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: Colors.grey[800]!,
-                                      ),
-                                    ),
-                                    child: ListView.builder(
-                                      itemCount: _generationLogs.length,
-                                      reverse: true,
-                                      itemBuilder: (context, index) {
-                                        final log =
-                                            _generationLogs[_generationLogs
-                                                    .length -
-                                                1 -
-                                                index];
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 4,
-                                          ),
-                                          child: Text(
-                                            log,
-                                            style: const TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 11,
-                                              fontFamily: 'monospace',
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildSavingOverlay(),
                     ],
                   ),
                 ],
@@ -494,6 +442,243 @@ class _ReportMarkdownEditorState extends State<ReportMarkdownEditor> {
           return const Icon(Icons.broken_image);
         },
       ),
+    );
+  }
+
+  Widget _buildSavingOverlay() {
+    return AnimatedOpacity(
+      opacity: _isSaving ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 300),
+      child: Container(
+        color: const Color(0xF0111111),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Pulsing icon
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.8, end: 1.0),
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.easeInOut,
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primaryRed,
+                              AppColors.primaryRed.withOpacity(0.6),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primaryRed.withOpacity(0.3),
+                              blurRadius: 20,
+                              spreadRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          LucideIcons.fileText,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 32),
+                const Text(
+                  "GENERATING REPORT",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Please wait while we prepare your report",
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 36),
+
+                // Stepper
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A1A),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey[800]!),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildStepRow(
+                        step: 1,
+                        label: "Generating Markdown",
+                        description: "Building report with images",
+                        icon: LucideIcons.fileCode,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Container(
+                          width: 2,
+                          height: 20,
+                          color: _currentStep > 1 ? AppColors.primaryRed : Colors.grey[800],
+                        ),
+                      ),
+                      _buildStepRow(
+                        step: 2,
+                        label: "Uploading to Fileverse",
+                        description: "Syncing to blockchain",
+                        icon: LucideIcons.upload,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Container(
+                          width: 2,
+                          height: 20,
+                          color: _currentStep > 2 ? AppColors.primaryRed : Colors.grey[800],
+                        ),
+                      ),
+                      _buildStepRow(
+                        step: 3,
+                        label: "Saving to History",
+                        description: "Storing in your account",
+                        icon: LucideIcons.database,
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // Live log
+                if (_generationLogs.isNotEmpty)
+                  Container(
+                    height: 60,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey[900]!),
+                    ),
+                    child: Text(
+                      _generationLogs.last,
+                      style: const TextStyle(
+                        color: Colors.greenAccent,
+                        fontSize: 11,
+                        fontFamily: 'monospace',
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStepRow({
+    required int step,
+    required String label,
+    required String description,
+    required IconData icon,
+  }) {
+    final isActive = _currentStep == step;
+    final isDone = _currentStep > step;
+    final isPending = _currentStep < step;
+
+    return Row(
+      children: [
+        // Step indicator circle
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isDone
+                ? AppColors.primaryRed
+                : isActive
+                    ? AppColors.primaryRed.withOpacity(0.2)
+                    : Colors.grey[900],
+            border: Border.all(
+              color: isDone || isActive ? AppColors.primaryRed : Colors.grey[700]!,
+              width: 2,
+            ),
+          ),
+          child: Center(
+            child: isDone
+                ? const Icon(LucideIcons.check, color: Colors.white, size: 16)
+                : isActive
+                    ? SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.primaryRed,
+                        ),
+                      )
+                    : Icon(icon, color: Colors.grey[600], size: 14),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: isPending ? Colors.grey[600] : Colors.white,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                  fontSize: 13,
+                ),
+              ),
+              Text(
+                description,
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (isDone)
+          const Text(
+            "Done",
+            style: TextStyle(
+              color: Colors.greenAccent,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        if (isActive)
+          Text(
+            "In Progress",
+            style: TextStyle(
+              color: AppColors.primaryRed,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+      ],
     );
   }
 }

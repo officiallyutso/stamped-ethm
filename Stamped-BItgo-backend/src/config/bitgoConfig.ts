@@ -7,5 +7,7 @@ export const config = {
   walletId: process.env.BITGO_WALLET_ID || '',
   coin: process.env.BITGO_COIN || 'teth',
   port: parseInt(process.env.PORT || '4000', 10),
-  enterpriseId : "69b2afd58445ab5ac1ba9738f1c8afed"
+  enterpriseId : "69b2afd58445ab5ac1ba9738f1c8afed",
+  fileverseApiKey: process.env.FILEVERSE_API_KEY || '',
+  fileverseServerUrl: process.env.FILEVERSE_SERVER_URL || 'http://localhost:8001'
 };
