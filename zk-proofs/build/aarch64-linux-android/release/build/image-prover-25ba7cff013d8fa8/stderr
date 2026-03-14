@@ -1,0 +1,947 @@
+Cloning into '/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2'...
+Updating files:  88% (3975/4471)Updating files:  89% (3980/4471)Updating files:  90% (4024/4471)Updating files:  91% (4069/4471)Updating files:  92% (4114/4471)Updating files:  93% (4159/4471)Updating files:  94% (4203/4471)Updating files:  95% (4248/4471)Updating files:  96% (4293/4471)Updating files:  97% (4337/4471)Updating files:  98% (4382/4471)Updating files:  99% (4427/4471)Updating files: 100% (4471/4471)Updating files: 100% (4471/4471), done.
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at w2c2/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at wasi/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c: In function ‘wasmCWriteMemoryFillExpr’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c:1652:26: warning: unused parameter ‘miscOpcode’ [-Wunused-parameter]
+ 1652 |     const WasmMiscOpcode miscOpcode
+      |     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c: In function ‘wasmCWriteModuleFunctionExportsArray’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c:5990:16: warning: unused parameter ‘pretty’ [-Wunused-parameter]
+ 5990 |     const bool pretty,
+      |     ~~~~~~~~~~~^~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/debug.c: In function ‘wasmParseDebugInfo’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/debug.c:782:23: warning: unused parameter ‘sections’ [-Wunused-parameter]
+  782 |     WasmDebugSections sections
+      |     ~~~~~~~~~~~~~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/main.c: In function ‘cleanImplementationFiles’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/main.c:242:47: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  242 |         for (pathCharIndex = 1; pathCharIndex < pathLength - 2; pathCharIndex++) {
+      |                                               ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/main.c: In function ‘main’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/main.c:397:17: warning: string length ‘709’ is greater than the length ‘509’ ISO C90 compilers are required to support [-Woverlength-strings]
+  397 |                 );
+      |                 ^
+In function ‘SHA1Update’,
+    inlined from ‘SHA1Pad’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:165:9,
+    inlined from ‘SHA1Final’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:175:5,
+    inlined from ‘SHA1’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:187:5:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:141:13: warning: ‘SHA1Transform’ reading 64 bytes from a region of size 1 [-Wstringop-overread]
+  141 |             SHA1Transform(context->state, (U8 *)&data[i]);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:141:13: note: referencing argument 2 of type ‘const U8[64]’ {aka ‘const unsigned char[64]’}
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c: In function ‘SHA1’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:61:1: note: in a call to function ‘SHA1Transform’
+   61 | SHA1Transform(U32 state[5], const U8 buffer[SHA1_BLOCK_LENGTH])
+      | ^~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/leb128_test.c: In function ‘testReadU32LEB128’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/leb128_test.c:31:14: warning: comparison of integer expressions of different signedness: ‘I32’ {aka ‘int’} and ‘long unsigned int’ [-Wsign-compare]
+   31 |     for (; i < sizeof(testCases) / sizeof(testCases[0]); i++) {
+      |              ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/leb128_test.c: In function ‘testReadI32LEB128’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/leb128_test.c:87:14: warning: comparison of integer expressions of different signedness: ‘I32’ {aka ‘int’} and ‘long unsigned int’ [-Wsign-compare]
+   87 |     for (; i < sizeof(testCases) / sizeof(testCases[0]); i++) {
+      |              ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c: In function ‘testOpcodes’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Load’ not handled in switch [-Wswitch]
+   13 |         switch (opcode) {
+      |         ^~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Load’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Load’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Load8S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Load8U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Load16S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Load16U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load8S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load8U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load16S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load16U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Load32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeMemorySize’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeMemoryGrow’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Const’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Const’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Const’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Const’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Eqz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Eq’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Ne’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32LtS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32LtU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32GtS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32GtU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32LeS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32LeU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32GeS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32GeU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Eqz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Eq’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Ne’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64LtS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64LtU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64GtS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64GtU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64LeS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64LeU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64GeS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64GeU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Eq’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Ne’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Lt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Gt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Le’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Ge’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Eq’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Ne’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Lt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Gt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Le’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Ge’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Clz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Ctz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32PopCnt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Add’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Sub’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Mul’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32DivS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32DivU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32RemS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32RemU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32And’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Or’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Xor’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Shl’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32ShrS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32ShrU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Rotl’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Rotr’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Clz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Ctz’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64PopCnt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Add’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Sub’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Mul’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64DivS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64DivU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64RemS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64RemU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64And’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Or’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Xor’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Shl’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64ShrS’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64ShrU’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Rotl’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Rotr’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Abs’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Neg’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Ceil’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Floor’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Trunc’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Nearest’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Sqrt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Add’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Sub’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Mul’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Div’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Min’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32Max’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32CopySign’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Abs’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Neg’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Ceil’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Floor’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Trunc’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Nearest’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Sqrt’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Add’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Sub’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Mul’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Div’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Min’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64Max’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64CopySign’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32WrapI64’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32TruncF32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32TruncF32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32TruncF64S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32TruncF64U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64ExtendI32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64ExtendI32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64TruncF32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64TruncF32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64TruncF64S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64TruncF64U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32ConvertI32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32ConvertI32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32ConvertI64S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32ConvertI64U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32DemoteF64’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64ConvertI32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64ConvertI32U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64ConvertI64S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64ConvertI64U’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64PromoteF32’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32ReinterpretF32’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64ReinterpretF64’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF32ReinterpretI32’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeF64ReinterpretI64’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Extend8S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI32Extend16S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Extend8S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Extend16S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeI64Extend32S’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeThreadsPrefix’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/opcode_test.c:13:9: warning: enumeration value ‘wasmOpcodeMiscPrefix’ not handled in switch [-Wswitch]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c: In function ‘wasmCWriteMemoryFillExpr’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c:1652:26: warning: unused parameter ‘miscOpcode’ [-Wunused-parameter]
+ 1652 |     const WasmMiscOpcode miscOpcode
+      |     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c: In function ‘wasmCWriteModuleFunctionExportsArray’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/c.c:5990:16: warning: unused parameter ‘pretty’ [-Wunused-parameter]
+ 5990 |     const bool pretty,
+      |     ~~~~~~~~~~~^~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/debug.c: In function ‘wasmParseDebugInfo’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/debug.c:782:23: warning: unused parameter ‘sections’ [-Wunused-parameter]
+  782 |     WasmDebugSections sections
+      |     ~~~~~~~~~~~~~~~~~~^~~~~~~~
+In function ‘SHA1Update’,
+    inlined from ‘SHA1Pad’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:165:9,
+    inlined from ‘SHA1Final’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:175:5,
+    inlined from ‘SHA1’ at /home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:187:5:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:141:13: warning: ‘SHA1Transform’ reading 64 bytes from a region of size 1 [-Wstringop-overread]
+  141 |             SHA1Transform(context->state, (U8 *)&data[i]);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:141:13: note: referencing argument 2 of type ‘const U8[64]’ {aka ‘const unsigned char[64]’}
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c: In function ‘SHA1’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/w2c2/sha1.c:61:1: note: in a call to function ‘SHA1Transform’
+   61 | SHA1Transform(U32 state[5], const U8 buffer[SHA1_BLOCK_LENGTH])
+      | ^~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiToNativePath’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:299:11: warning: unused parameter ‘path’ [-Wunused-parameter]
+  299 |     char *path
+      |     ~~~~~~^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFromNativePath’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:358:11: warning: unused parameter ‘path’ [-Wunused-parameter]
+  358 |     char *path
+      |     ~~~~~~^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__proc_exit’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:712:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+  712 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:711:1: note: in expansion of macro ‘WASI_IMPORT’
+  711 | WASI_IMPORT(void, proc_exit, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__proc_exit’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:712:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+  712 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:711:1: note: in expansion of macro ‘WASI_IMPORT’
+  711 | WASI_IMPORT(void, proc_exit, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__args_sizes_get’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1151:22: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1151 |     for (; argvIndex < wasi.argc; argvIndex++) {
+      |                      ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:49: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                                 ^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1132:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1132 | WASI_IMPORT(U32, args_sizes_get, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__args_sizes_get’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1151:22: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1151 |     for (; argvIndex < wasi.argc; argvIndex++) {
+      |                      ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:58: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                                          ^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1132:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1132 | WASI_IMPORT(U32, args_sizes_get, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiArgsGet’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1182:18: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1182 |     for (; index < wasi.argc; index++) {
+      |                  ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDReaddir’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1620:24: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘ssize_t’ {aka ‘long int’} [-Wsign-compare]
+ 1620 |             nameLength > bufferRemaining
+      |                        ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1621:15: warning: operand of ‘?:’ changes signedness from ‘ssize_t’ {aka ‘long int’} to ‘size_t’ {aka ‘long unsigned int’} due to unsignedness of other operand [-Wsign-compare]
+ 1621 |             ? bufferRemaining
+      |               ^~~~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_close’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1661:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 1661 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1660:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1660 | WASI_IMPORT(U32, fd_close, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_close’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1661:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 1661 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1660:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1660 | WASI_IMPORT(U32, fd_close, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDDatasync’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:2296:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 2296 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDSync’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:2344:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 2344 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_filestat_set_size’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3074:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3074 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3073:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3073 | WASI_IMPORT(U32, fd_filestat_set_size, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_filestat_set_size’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3074:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3074 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3073:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3073 | WASI_IMPORT(U32, fd_filestat_set_size, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3084:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3084 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3083:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3083 | WASI_IMPORT(U32, fd_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3084:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3084 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3083:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3083 | WASI_IMPORT(U32, fd_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__path_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3171:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3171 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3170:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3170 | WASI_IMPORT(U32, path_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__path_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3171:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3171 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3170:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3170 | WASI_IMPORT(U32, path_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__path_link’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3744:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3744 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3743:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3743 | WASI_IMPORT(U32, path_link, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__path_link’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3744:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3744 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3743:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3743 | WASI_IMPORT(U32, path_link, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_fdstat_set_flags’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3890:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3890 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3889:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3889 | WASI_IMPORT(U32, fd_fdstat_set_flags, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_fdstat_set_flags’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3890:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3890 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3889:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3889 | WASI_IMPORT(U32, fd_fdstat_set_flags, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__poll_oneoff’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3900:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3900 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3899:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3899 | WASI_IMPORT(U32, poll_oneoff, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__poll_oneoff’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3900:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3900 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3899:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3899 | WASI_IMPORT(U32, poll_oneoff, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sched_yield’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4041:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4041 |     void* UNUSED(instance)
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4040:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4040 | WASI_IMPORT(U32, sched_yield, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sched_yield’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4041:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4041 |     void* UNUSED(instance)
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4040:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4040 | WASI_IMPORT(U32, sched_yield, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_allocate’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4049:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4049 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4048:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4048 | WASI_IMPORT(U32, fd_allocate, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_allocate’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4049:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4049 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4048:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4048 | WASI_IMPORT(U32, fd_allocate, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_advise’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4059:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4059 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4058:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4058 | WASI_IMPORT(U32, fd_advise, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_advise’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4059:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4059 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4058:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4058 | WASI_IMPORT(U32, fd_advise, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_accept’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4070:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4070 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4069:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4069 | WASI_IMPORT(U32, sock_accept, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_accept’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4070:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4070 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4069:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4069 | WASI_IMPORT(U32, sock_accept, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_recv’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4081:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4081 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4080:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4080 | WASI_IMPORT(U32, sock_recv, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_recv’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4081:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4081 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4080:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4080 | WASI_IMPORT(U32, sock_recv, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_send’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4095:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4095 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4094:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4094 | WASI_IMPORT(U32, sock_send, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_send’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4095:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4095 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4094:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4094 | WASI_IMPORT(U32, sock_send, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_shutdown’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4108:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4108 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4107:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4107 | WASI_IMPORT(U32, sock_shutdown, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_shutdown’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4108:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4108 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4107:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4107 | WASI_IMPORT(U32, sock_shutdown, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/win32.c:313: warning: ISO C forbids an empty translation unit [-Wpedantic]
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/test.c: In function ‘wasiMemory’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/test.c:80:30: warning: unused parameter ‘instance’ [-Wunused-parameter]
+   80 | wasmMemory* wasiMemory(void* instance) {
+      |                        ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiToNativePath’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:299:11: warning: unused parameter ‘path’ [-Wunused-parameter]
+  299 |     char *path
+      |     ~~~~~~^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFromNativePath’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:358:11: warning: unused parameter ‘path’ [-Wunused-parameter]
+  358 |     char *path
+      |     ~~~~~~^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__proc_exit’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:712:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+  712 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:711:1: note: in expansion of macro ‘WASI_IMPORT’
+  711 | WASI_IMPORT(void, proc_exit, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__proc_exit’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:712:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+  712 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:711:1: note: in expansion of macro ‘WASI_IMPORT’
+  711 | WASI_IMPORT(void, proc_exit, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__args_sizes_get’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1151:22: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1151 |     for (; argvIndex < wasi.argc; argvIndex++) {
+      |                      ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:49: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                                 ^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1132:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1132 | WASI_IMPORT(U32, args_sizes_get, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__args_sizes_get’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1151:22: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1151 |     for (; argvIndex < wasi.argc; argvIndex++) {
+      |                      ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:58: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                                          ^~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1132:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1132 | WASI_IMPORT(U32, args_sizes_get, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiArgsGet’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1182:18: warning: comparison of integer expressions of different signedness: ‘U32’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+ 1182 |     for (; index < wasi.argc; index++) {
+      |                  ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDReaddir’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1620:24: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘ssize_t’ {aka ‘long int’} [-Wsign-compare]
+ 1620 |             nameLength > bufferRemaining
+      |                        ^
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1621:15: warning: operand of ‘?:’ changes signedness from ‘ssize_t’ {aka ‘long int’} to ‘size_t’ {aka ‘long unsigned int’} due to unsignedness of other operand [-Wsign-compare]
+ 1621 |             ? bufferRemaining
+      |               ^~~~~~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_close’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1661:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 1661 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1660:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1660 | WASI_IMPORT(U32, fd_close, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_close’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1661:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 1661 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:1660:1: note: in expansion of macro ‘WASI_IMPORT’
+ 1660 | WASI_IMPORT(U32, fd_close, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDDatasync’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:2296:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 2296 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasiFDSync’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:2344:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 2344 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_filestat_set_size’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3074:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3074 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3073:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3073 | WASI_IMPORT(U32, fd_filestat_set_size, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_filestat_set_size’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3074:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3074 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3073:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3073 | WASI_IMPORT(U32, fd_filestat_set_size, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3084:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3084 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3083:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3083 | WASI_IMPORT(U32, fd_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3084:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3084 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3083:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3083 | WASI_IMPORT(U32, fd_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__path_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3171:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3171 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3170:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3170 | WASI_IMPORT(U32, path_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__path_filestat_set_times’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3171:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3171 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3170:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3170 | WASI_IMPORT(U32, path_filestat_set_times, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__path_link’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3744:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3744 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3743:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3743 | WASI_IMPORT(U32, path_link, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__path_link’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3744:11: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3744 |     void* instance,
+      |     ~~~~~~^~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3743:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3743 | WASI_IMPORT(U32, path_link, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_fdstat_set_flags’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3890:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3890 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3889:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3889 | WASI_IMPORT(U32, fd_fdstat_set_flags, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_fdstat_set_flags’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3890:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3890 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3889:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3889 | WASI_IMPORT(U32, fd_fdstat_set_flags, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__poll_oneoff’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3900:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3900 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3899:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3899 | WASI_IMPORT(U32, poll_oneoff, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__poll_oneoff’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3900:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 3900 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:3899:1: note: in expansion of macro ‘WASI_IMPORT’
+ 3899 | WASI_IMPORT(U32, poll_oneoff, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sched_yield’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4041:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4041 |     void* UNUSED(instance)
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4040:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4040 | WASI_IMPORT(U32, sched_yield, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sched_yield’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4041:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4041 |     void* UNUSED(instance)
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4040:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4040 | WASI_IMPORT(U32, sched_yield, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_allocate’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4049:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4049 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4048:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4048 | WASI_IMPORT(U32, fd_allocate, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_allocate’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4049:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4049 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4048:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4048 | WASI_IMPORT(U32, fd_allocate, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__fd_advise’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4059:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4059 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4058:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4058 | WASI_IMPORT(U32, fd_advise, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__fd_advise’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4059:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4059 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4058:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4058 | WASI_IMPORT(U32, fd_advise, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_accept’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4070:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4070 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4069:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4069 | WASI_IMPORT(U32, sock_accept, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_accept’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4070:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4070 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4069:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4069 | WASI_IMPORT(U32, sock_accept, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_recv’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4081:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4081 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4080:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4080 | WASI_IMPORT(U32, sock_recv, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_recv’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4081:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4081 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4080:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4080 | WASI_IMPORT(U32, sock_recv, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_send’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4095:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4095 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4094:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4094 | WASI_IMPORT(U32, sock_send, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_send’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4095:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4095 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4094:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4094 | WASI_IMPORT(U32, sock_send, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_unstable__sock_shutdown’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4108:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4108 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:430:38: note: in definition of macro ‘WASI_UNSTABLE_IMPORT’
+  430 |   returnType wasi_unstable__ ## name parameters body
+      |                                      ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4107:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4107 | WASI_IMPORT(U32, sock_shutdown, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c: In function ‘wasi_snapshot_preview1__sock_shutdown’:
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4108:18: warning: unused parameter ‘instance’ [-Wunused-parameter]
+ 4108 |     void* UNUSED(instance),
+      |     ~~~~~~~~~~~~~^~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:433:47: note: in definition of macro ‘WASI_PREVIEW1_IMPORT’
+  433 |   returnType wasi_snapshot_preview1__ ## name parameters body
+      |                                               ^~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/wasi.c:4107:1: note: in expansion of macro ‘WASI_IMPORT’
+ 4107 | WASI_IMPORT(U32, sock_shutdown, (
+      | ^~~~~~~~~~~
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/build/image-prover-25ba7cff013d8fa8/out/w2c2/wasi/win32.c:313: warning: ISO C forbids an empty translation unit [-Wpedantic]
+w2c2: skipping custom section 'name' (size 46792)

@@ -1,0 +1,6 @@
+build_mode = "release"
+target_adapters = ["circom"]
+target_platforms = ["flutter"]
+auto_update = false
+
+[update]

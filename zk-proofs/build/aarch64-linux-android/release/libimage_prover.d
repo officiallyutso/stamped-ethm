@@ -1,0 +1,1 @@
+/home/raj/programs/image-prover/build/aarch64-linux-android/release/libimage_prover.a: /home/raj/programs/image-prover/build.rs /home/raj/programs/image-prover/src/circom.rs /home/raj/programs/image-prover/src/error.rs /home/raj/programs/image-prover/src/lib.rs /home/raj/programs/image-prover/src/stubs.rs /home/raj/programs/image-prover/./test-vectors/circom

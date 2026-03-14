@@ -1,0 +1,12 @@
+build_mode = "debug"
+target_adapters = ["circom"]
+target_platforms = [
+    "android",
+    "ios",
+    "flutter",
+]
+ios = ["aarch64-apple-ios"]
+android = ["aarch64-linux-android"]
+auto_update = false
+
+[update]
