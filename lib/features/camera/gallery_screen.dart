@@ -10,7 +10,10 @@ import 'package:stamped/features/camera/camera_provider.dart';
 import 'dart:io';
 import 'package:native_exif/native_exif.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../core/services/zk_prover_service.dart';
+import '../../core/services/backend_api_service.dart';
+import 'package:stamped/features/workspace/workspace_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stamped/core/theme/app_colors.dart';
 
 class GalleryScreen extends StatefulWidget {
@@ -49,16 +52,26 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   Future<void> _generateZkProofs(CameraProvider provider) async {
+    final workspaceProvider = Provider.of<WorkspaceProvider>(context, listen: false);
+    final workspace = workspaceProvider.currentWorkspace;
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (workspace == null || user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Workspace or User not found.')),
+      );
+      return;
+    }
+
     setState(() => _isGenerating = true);
-    final zkService = ZkProverService();
+    final apiService = BackendApiService();
     
     int successCount = 0;
     int failCount = 0;
+    String? _lastTxId;
 
     try {
       final directory = await getApplicationDocumentsDirectory();
-      // Since memory images don't have straightforward paths, we mapped them by timestamp earlier.
-      // But we can just read the actual saved files and match them to the memory order (newest first).
       final List<FileSystemEntity> files = directory.listSync();
       List<File> imageFiles = files
           .whereType<File>()
@@ -66,6 +79,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
           .toList()
         ..sort((a, b) => b.lastModifiedSync().compareTo(a.lastModifiedSync()));
 
+      List<String> validHashes = [];
+
+      // Collect all hashes first
       for (int index in _selectedIndices) {
         if (index >= imageFiles.length) continue;
         
@@ -75,29 +91,71 @@ class _GalleryScreenState extends State<GalleryScreen> {
         await exif.close();
 
         if (imageHash == null || imageHash.isEmpty) {
-          debugPrint("No hash found in EXIF for image \$index");
+          debugPrint("No hash found in EXIF for image $index");
           failCount++;
           continue;
         }
 
-        // Mock parameters matching the ImagePipelineZK circuit. 
-        // In reality, these should be generated based on the actual image/timestamp/location 
-        // and embedded in a structured way.
-        try {
-          final proof = await zkService.generateProof(
-            imageHash: imageHash,
-            outputHash: imageHash, // Simplified for testing
-            pipelineHash: "123456",
-            nullifier: "78910",
-            embedKey: "0",
-            payload64: "1",
-            metadataHash: "1111",
-          );
-          debugPrint("Proof generated: \$proof");
-          successCount++;
-        } catch (e) {
-          failCount++;
+        validHashes.add(imageHash);
+      }
+
+      if (validHashes.isNotEmpty) {
+        // Fetch user's BitGo wallet address for this workspace
+        final userWalletData = await apiService.getUserWallet(
+          workspaceId: workspace.id,
+          userId: user.uid,
+        );
+
+        if (userWalletData == null || userWalletData['walletAddress'] == null) {
+          throw Exception("User wallet not found. Please try again later.");
         }
+
+        final userAddress = userWalletData['walletAddress'];
+
+        // Send hashes on chain
+        final result = await apiService.generateOnChainProof(
+          hashes: validHashes,
+          workspaceId: workspace.id,
+          userAddress: userAddress,
+        );
+
+        final txId = result['txId'] ?? 'Unknown TX';
+        _lastTxId = txId;
+        debugPrint("Proof generated on-chain: $txId");
+
+        // Update Firestore for both personal captures and global photos
+        for (String hash in validHashes) {
+          // 1. Update personal captures
+          final capturesQuery = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('captures')
+              .where('imageHash', isEqualTo: hash)
+              .get();
+              
+          for (var doc in capturesQuery.docs) {
+            await doc.reference.update({'txId': txId});
+          }
+
+          // 2. Update global photos
+          final photosQuery = await FirebaseFirestore.instance
+              .collection('photos')
+              .where('imageHash', isEqualTo: hash)
+              .get();
+              
+          for (var doc in photosQuery.docs) {
+            await doc.reference.update({'txId': txId});
+          }
+        }
+        
+        successCount = validHashes.length;
+      }
+    } catch (e) {
+      debugPrint("Error generating proofs: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to generate proofs: $e')),
+        );
       }
     } finally {
       setState(() {
@@ -105,9 +163,14 @@ class _GalleryScreenState extends State<GalleryScreen> {
         _selectedIndices.clear(); // Exit selection mode
       });
       
-      if (mounted) {
+      if (mounted && successCount > 0) {
+        // Find the last known txId to display
+        final displayTxId = '$_lastTxId'.length > 15 ? '${'$_lastTxId'.substring(0, 15)}...' : '$_lastTxId';
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('ZK Proofs generated! Success: \$successCount, Failed: \$failCount')),
+          SnackBar(
+            content: Text('Proof generated! Transaction ID: $displayTxId'),
+            duration: const Duration(seconds: 4),
+          ),
         );
       }
     }
@@ -153,63 +216,101 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 )
               : Stack(
                   children: [
-                    GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemCount: totalImages,
-                      itemBuilder: (context, index) {
-                        final isSelected = _selectedIndices.contains(index);
-                        
-                        return GestureDetector(
-                          onLongPress: () {
-                            if (!_isSelectionMode) {
-                              _toggleSelection(index);
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseAuth.instance.currentUser == null
+                          ? null
+                          : FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection('captures')
+                              .snapshots(),
+                      builder: (context, snapshot) {
+                        final Set<String> verifiedCaptureIds = {};
+                        if (snapshot.hasData) {
+                          for (var doc in snapshot.data!.docs) {
+                            final data = doc.data() as Map<String, dynamic>?;
+                            if (data != null && data.containsKey('txId') && data['txId'] != null) {
+                              verifiedCaptureIds.add(doc.id);
                             }
-                          },
-                          onTap: () {
-                            if (_isSelectionMode) {
-                              _toggleSelection(index);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImageViewer(imageFile: provider.galleryFiles[index]),
-                                ),
-                              );
-                            }
-                          },
-                          child: Hero(
-                            tag: 'gallery_image_$index',
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.file(
-                                    provider.galleryFiles[index],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                if (isSelected)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: AppColors.primaryRed, width: 3),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(Icons.check_circle, color: AppColors.primaryRed, size: 32),
-                                    ),
-                                  ),
-                              ],
-                            ),
+                          }
+                        }
+
+                        return GridView.builder(
+                          padding: const EdgeInsets.all(8),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                           ),
+                          itemCount: totalImages,
+                          itemBuilder: (context, index) {
+                            final file = provider.galleryFiles[index];
+                            final captureId = file.path.split(Platform.pathSeparator).last.split('.').first;
+                            final isVerified = verifiedCaptureIds.contains(captureId);
+                            final isSelected = _selectedIndices.contains(index);
+                            
+                            return GestureDetector(
+                              onLongPress: () {
+                                if (!_isSelectionMode) {
+                                  _toggleSelection(index);
+                                }
+                              },
+                              onTap: () {
+                                if (_isSelectionMode) {
+                                  _toggleSelection(index);
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FullScreenImageViewer(imageFile: file),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Hero(
+                                tag: 'gallery_image_$index',
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.file(
+                                        file,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    if (isVerified && !isSelected)
+                                      Positioned(
+                                        top: 4,
+                                        left: 4,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primaryRed,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: Colors.white, width: 1.5),
+                                          ),
+                                          child: const Icon(LucideIcons.check, size: 12, color: Colors.white),
+                                        ),
+                                      ),
+                                    if (isSelected)
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.4),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: AppColors.primaryRed, width: 3),
+                                        ),
+                                        child: const Center(
+                                          child: Icon(Icons.check_circle, color: AppColors.primaryRed, size: 32),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      },
+                      }
                     ),
                     if (_isGenerating)
                       Container(
@@ -220,7 +321,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                             children: [
                               CircularProgressIndicator(color: Colors.white),
                               SizedBox(height: 16),
-                              Text("Generating ZK Proof...", style: TextStyle(color: Colors.white)),
+                              Text("Generating Proof...", style: TextStyle(color: Colors.white)),
                             ],
                           ),
                         ),
@@ -230,7 +331,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           floatingActionButton: _isSelectionMode && !_isGenerating
               ? FloatingActionButton.extended(
                   onPressed: () => _generateZkProofs(provider),
-                  label: const Text('Generate ZK Proof'),
+                  label: const Text('Generate Proof'),
                   icon: const Icon(LucideIcons.fingerprint),
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
@@ -255,6 +356,8 @@ class FullScreenImageViewer extends StatefulWidget {
 class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
   Map<String, dynamic>? _locationData;
   bool _isLoadingExif = true;
+  String? _txId;
+  String? _imageHash;
 
   @override
   void initState() {
@@ -266,7 +369,10 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
     try {
       final exif = await Exif.fromPath(widget.imageFile.path);
       final desc = await exif.getAttribute('ImageDescription');
+      final hash = await exif.getAttribute('UserComment');
       await exif.close();
+
+      _imageHash = hash;
 
       if (desc != null && desc.isNotEmpty) {
         // Try parsing JSON
@@ -277,6 +383,11 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
           });
         }
       }
+
+      // Check Firestore for proof status if hash exists
+      if (_imageHash != null && _imageHash!.isNotEmpty) {
+        _checkProofStatus();
+      }
     } catch (e) {
       debugPrint("Error reading EXIF location: $e");
     } finally {
@@ -285,6 +396,52 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
           _isLoadingExif = false;
         });
       }
+    }
+  }
+
+  Future<void> _checkProofStatus() async {
+    try {
+      final query = await FirebaseFirestore.instance
+          .collection('photos')
+          .where('imageHash', isEqualTo: _imageHash)
+          .limit(1)
+          .get();
+          
+      if (query.docs.isNotEmpty) {
+        final data = query.docs.first.data();
+        if (data.containsKey('txId') && data['txId'] != null) {
+          if (mounted) {
+            setState(() {
+              _txId = data['txId'];
+            });
+          }
+        }
+      } else {
+        // Also check personal captures if not in global photos
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final capturesQuery = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('captures')
+              .where('imageHash', isEqualTo: _imageHash)
+              .limit(1)
+              .get();
+              
+          if (capturesQuery.docs.isNotEmpty) {
+            final data = capturesQuery.docs.first.data();
+            if (data.containsKey('txId') && data['txId'] != null) {
+              if (mounted) {
+                setState(() {
+                  _txId = data['txId'];
+                });
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("Error checking proof status: $e");
     }
   }
 
@@ -369,6 +526,56 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (_txId != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.primaryRed.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.primaryRed.withOpacity(0.5)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(LucideIcons.checkCircle, color: AppColors.primaryRed, size: 24),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Photo proven by Stamped',
+                          style: TextStyle(
+                            color: AppColors.primaryRed,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        if (_txId != null)
+                          Text(
+                            'TX: ${_txId!.substring(0, 6)}...${_txId!.substring(_txId!.length - 4)}',
+                            style: TextStyle(
+                              color: AppColors.primaryRed.withOpacity(0.8),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(LucideIcons.externalLink, color: AppColors.primaryRed, size: 20),
+                    onPressed: () {
+                      final url = Uri.parse('https://holesky.etherscan.io/tx/$_txId');
+                      launchUrl(url, mode: LaunchMode.externalApplication);
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ),
           const Text(
             'Location & Telemetry Data',
             style: TextStyle(

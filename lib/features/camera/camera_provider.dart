@@ -11,7 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gal/gal.dart';
-import '../../core/services/zk_prover_service.dart';
+import 'package:crypto/crypto.dart';
 
 class CameraProvider extends ChangeNotifier {
   CameraController? _controller;
@@ -233,8 +233,7 @@ class CameraProvider extends ChangeNotifier {
       await file.writeAsBytes(jpegBytes);
 
       // 3. Hash and Inject EXIF
-      final zkService = ZkProverService();
-      final imageHash = await zkService.hashImage(jpegBytes);
+      final imageHash = sha256.convert(jpegBytes).toString();
       
       final exif = await Exif.fromPath(file.path);
       await exif.writeAttribute('UserComment', imageHash);

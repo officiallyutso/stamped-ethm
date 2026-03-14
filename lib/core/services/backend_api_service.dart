@@ -235,6 +235,38 @@ class BackendApiService {
   }
 
   // ============================================================
+  // Proof Generation
+  // ============================================================
+
+  /// Send image hashes to the BitGo wallet to generate an on-chain proof
+  Future<Map<String, dynamic>> generateOnChainProof({
+    required List<String> hashes,
+    required String workspaceId,
+    required String userAddress,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$_baseUrl/workspace/send-hash'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'hashes': hashes,
+          'workspaceId': workspaceId,
+          'userAddress': userAddress,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Generate proof error: ${response.body}');
+      }
+    } catch (e) {
+      print('Generate proof error: $e');
+      rethrow;
+    }
+  }
+
+  // ============================================================
   // User Wallet (auto-generated)
   // ============================================================
 

@@ -164,6 +164,56 @@ class _NetworkPhotoViewerScreenState extends State<NetworkPhotoViewerScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (widget.photo.txId != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.primaryRed.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.primaryRed.withOpacity(0.5)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(LucideIcons.checkCircle, color: AppColors.primaryRed, size: 24),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Photo proven by Stamped',
+                          style: TextStyle(
+                            color: AppColors.primaryRed,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        if (widget.photo.txId != null)
+                          Text(
+                            'TX: ${widget.photo.txId!.substring(0, 6)}...${widget.photo.txId!.substring(widget.photo.txId!.length - 4)}',
+                            style: TextStyle(
+                              color: AppColors.primaryRed.withOpacity(0.8),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(LucideIcons.externalLink, color: AppColors.primaryRed, size: 20),
+                    onPressed: () {
+                      final url = Uri.parse('https://holesky.etherscan.io/tx/${widget.photo.txId}');
+                      launchUrl(url, mode: LaunchMode.externalApplication);
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

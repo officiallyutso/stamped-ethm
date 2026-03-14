@@ -18,6 +18,7 @@ class PhotoModel {
   final double? exposure;
   final String? imageHash;
   final String? captureId;
+  final String? txId;
 
   PhotoModel({
     required this.id,
@@ -36,6 +37,7 @@ class PhotoModel {
     this.exposure,
     this.imageHash,
     this.captureId,
+    this.txId,
   });
 
   factory PhotoModel.fromMap(Map<String, dynamic> data, String documentId) {
@@ -56,6 +58,7 @@ class PhotoModel {
       exposure: (data['exposure'] as num?)?.toDouble(),
       imageHash: data['imageHash'] as String?,
       captureId: data['captureId'] as String?,
+      txId: data['txId'] as String?,
     );
   }
 
@@ -81,6 +84,7 @@ class PhotoModel {
       if (exposure != null) 'exposure': exposure,
       if (imageHash != null) 'imageHash': imageHash,
       if (captureId != null) 'captureId': captureId,
+      if (txId != null) 'txId': txId,
     };
   }
 }
