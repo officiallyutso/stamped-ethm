@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="#file:Group 7.png" alt="Chronicle AI Logo" width="100">
+  <img src="./assets/Group%207.png" alt="Chronicle AI Logo" width="100">
 </div>
 
 <div align="center">
@@ -84,14 +84,17 @@ pie title Current Detection Capability vs. Fraud Attempts (2024)
 
 ### Deepfake & AI Manipulation Growth
 
-```mermaid
-xychart-beta
-    title "Synthetic Media Incidents Reported (Thousands)"
-    x-axis [2019, 2020, 2021, 2022, 2023, 2024, 2025-est]
-    y-axis "Incidents (K)" 0 --> 500
-    bar [14, 22, 49, 81, 145, 290, 480]
-    line [14, 22, 49, 81, 145, 290, 480]
-```
+Year | Incidents (K)
+---- | -------------
+2019 | 14
+2020 | 22
+2021 | 49
+2022 | 81
+2023 | 145
+2024 | 290
+2025-est | 480
+
+> Note: GitHub’s Mermaid renderer does not currently support `xychart-beta` graphs; the above table reflects the same growth trajectory.
 
 ### Addressable Market
 
@@ -1101,22 +1104,16 @@ pie title Revenue Opportunity by Vertical (5-Year Projection)
 | **Starling Lab** | Academic research, manual verification | Not scalable, no enterprise workflow |
 | **STAMPED** | Full 7-layer: TEE + ZK + Steg + On-chain + P2P docs | — |
 
-```mermaid
-quadrantChart
-    title Verification Completeness vs. Enterprise Usability
-    x-axis Low Enterprise Usability --> High Enterprise Usability
-    y-axis Low Verification Completeness --> High Verification Completeness
-    quadrant-1 Sweet spot
-    quadrant-2 Academic / Research
-    quadrant-3 Consumer toy
-    quadrant-4 Enterprise but shallow
-    Truepic: [0.65, 0.45]
-    Numbers Protocol: [0.40, 0.55]
-    Amber Authenticate: [0.35, 0.40]
-    Adobe CAI: [0.72, 0.50]
-    Starling Lab: [0.20, 0.65]
-    STAMPED: [0.80, 0.92]
-```
+| Company | Enterprise Usability (0–1) | Verification Completeness (0–1) | Notes |
+|---|---|---|---|
+| Truepic | 0.65 | 0.45 | Consumer-friendly verification |
+| Numbers Protocol | 0.40 | 0.55 | Strong registry, lacks on-device attestation |
+| Amber Authenticate | 0.35 | 0.40 | Mobile-first, limited proof depth |
+| Adobe CAI | 0.72 | 0.50 | Broad adoption, metadata can be stripped |
+| Starling Lab | 0.20 | 0.65 | Research-grade, not enterprise-ready |
+| STAMPED | 0.80 | 0.92 | Enterprise-grade proof + usability |
+
+> _Note: GitHub’s Mermaid renderer does not support `quadrantChart` diagrams. The table above expresses the same positioning in a format that renders consistently._
 
 ### Business Model
 
