@@ -103,6 +103,78 @@ export class BitGoTransactionService {
     console.log('Transfer details:', tx.transfer);
   }
 
+  public async sendHashToWallet(
+    recipients: any[],
+    userAddress: string,
+  ) {
+    await this.bitgo.unlock({ otp: "0000000", duration: 3600 });
+
+    const depositWalletId = this.custodyService.readFromFile(DEPOSIT_FILE);
+    if (!depositWalletId) throw new Error("Deposit wallet not found");
+
+    const depositWallet = await this.coin.wallets().getWalletByAddress({
+      address: userAddress,
+    });
+
+    console.log("💸 Sending from Deposit Wallet → Standby");
+
+    const tx = await depositWallet.sendMany({
+      recipients,
+      walletPassphrase: "user-wallet-passphrase",
+      txFormat: "psbt",
+      type: "transfer",
+    });
+
+    console.log("✅ Transfer Sent");
+    console.log("Transaction ID:", tx.txid);
+    console.log("Transfer Info:", tx.transfer);
+
+    return tx;
+  }
+
+  public async whitelistStandbyAndDeposit(
+    standbyWalletId: string,
+    depositWalletId: string
+  ) {
+    const standbyWallet = await this.coin.wallets().get({ id: standbyWalletId });
+    const depositWallet = await this.coin.wallets().get({ id: depositWalletId });
+
+    const standbyReceive = standbyWallet.receiveAddress();
+    const depositReceive = depositWallet.receiveAddress();
+
+    console.log("🔐 Whitelisting wallets...");
+
+    // Allow Standby → Deposit
+    await standbyWallet.setPolicyRule({
+      id: "allow-deposit-wallet",
+      type: "advancedWhitelist",
+      action: { type: "deny" },
+      condition: {
+        add: {
+          item: depositReceive,
+          type: "address",
+          metaData: { label: "Deposit Wallet" },
+        },
+      },
+    });
+
+    // Allow Deposit → Standby
+    await depositWallet.setPolicyRule({
+      id: "allow-standby-wallet",
+      type: "advancedWhitelist",
+      action: { type: "deny" },
+      condition: {
+        add: {
+          item: standbyReceive,
+          type: "address",
+          metaData: { label: "Standby Wallet" },
+        },
+      },
+    });
+
+    console.log("✅ Wallets successfully whitelisted");
+  }
+
   public async getBalanceByAddress(address : string) {
     try {
       const wallet = await this.coin.wallets().getWalletByAddress({ 
